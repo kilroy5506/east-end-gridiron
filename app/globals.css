@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f1620;
+  --surface: #16202b;
+  --surface-raised: #1c2733;
+  --foreground: #eef1ec;
+  --muted: #93a1ac;
+  --border: #263140;
+  --accent: #e3a13c;
+  --accent-ink: #2a1c0c;
+  --win: #3fae74;
+  --loss: #d9584a;
+  --font-heading: var(--font-oswald);
+  --font-body: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-win: var(--win);
+  --color-loss: var(--loss);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-mono-num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
