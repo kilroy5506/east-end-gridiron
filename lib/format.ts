@@ -34,3 +34,18 @@ const ITEM_LABELS: Record<string, string> = {
 export function itemLabel(type: string): string {
   return ITEM_LABELS[type] ?? type.toLowerCase();
 }
+
+/** "Updated 4 minutes ago" style label for a data snapshot's fetchedAt. */
+export function formatSyncedAgo(iso: string | null): string {
+  if (!iso) return "Not synced yet";
+  const ms = Date.now() - new Date(iso).getTime();
+  const minutes = Math.floor(ms / 60000);
+  if (minutes < 1) return "Updated just now";
+  if (minutes === 1) return "Updated 1 minute ago";
+  if (minutes < 60) return `Updated ${minutes} minutes ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours === 1) return "Updated 1 hour ago";
+  if (hours < 24) return `Updated ${hours} hours ago`;
+  const days = Math.floor(hours / 24);
+  return days === 1 ? "Updated 1 day ago" : `Updated ${days} days ago`;
+}

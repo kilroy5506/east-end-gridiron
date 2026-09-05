@@ -1,54 +1,31 @@
-import {
-  getLeagueSnapshot,
-  getPlayerNames,
-  getTransactions,
-  teamName,
-} from "@/lib/espn";
+import { getLeagueSnapshot, getTransactionsData, teamName } from "@/lib/data";
 import { formatDate, itemLabel, transactionLabel } from "@/lib/format";
-import { ErrorPanel } from "@/components/ErrorPanel";
-import type { EspnTeam } from "@/lib/types";
+import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 300;
-export const runtime = "edge";
-
-export default async function TransactionsPage() {
-  let transactions: Awaited<ReturnType<typeof getTransactions>> = [];
-  let teams: EspnTeam[] = [];
-  let playerNames: Record<number, string> = {};
-  let loadError: string | null = null;
-
-  try {
-    const snapshot = await getLeagueSnapshot();
-    teams = snapshot.teams;
-    transactions = await getTransactions(30);
-    const playerIds = transactions.flatMap((t) => t.items.map((i) => i.playerId));
-    playerNames = await getPlayerNames([...new Set(playerIds)]);
-  } catch (err) {
-    loadError = err instanceof Error ? err.message : "Unknown error";
-  }
+export default function TransactionsPage() {
+  const snapshot = getLeagueSnapshot();
+  const { transactions, playerNames, fetchedAt } = getTransactionsData();
+  const hasData = fetchedAt !== null;
 
   function findTeam(id?: number) {
-    return teams.find((t) => t.id === id);
+    return snapshot.teams.find((t) => t.id === id);
   }
 
   return (
     <div className="flex flex-col gap-10">
-      <section>
-        <p className="font-heading text-xs uppercase tracking-[0.14em] text-accent">
-          The Wire
-        </p>
-        <h1 className="font-heading text-3xl font-bold mt-1">Transactions</h1>
+      <section className="flex items-start justify-between gap-4">
+        <div>
+          <p className="font-heading text-xs uppercase tracking-[0.14em] text-accent">
+            The Wire
+          </p>
+          <h1 className="font-heading text-3xl font-bold mt-1">Transactions</h1>
+        </div>
+        {hasData && <SyncNote fetchedAt={fetchedAt} />}
       </section>
 
-      {loadError && (
-        <ErrorPanel
-          title="Couldn't load transactions right now"
-          message={`${loadError}.`}
-        />
-      )}
+      {!hasData && <WaitingForSyncPanel />}
 
-      {transactions.length > 0 && (
+      {hasData && transactions.length > 0 && (
         <section className="flex flex-col gap-2">
           {transactions.map((t) => {
             const team = findTeam(t.teamId);
@@ -82,7 +59,7 @@ export default async function TransactionsPage() {
         </section>
       )}
 
-      {!loadError && transactions.length === 0 && (
+      {hasData && transactions.length === 0 && (
         <p className="text-muted text-sm">No transactions yet this season.</p>
       )}
     </div>

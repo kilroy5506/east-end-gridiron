@@ -10,21 +10,23 @@ transaction wire, and weekly recaps, pulled from ESPN Fantasy Football.
 - Deployed on [Vercel](https://vercel.com)
 - Comments/reactions: [Supabase](https://supabase.com) (coming next)
 
-## Environment variables
+## How the ESPN data gets here
 
-Copy `.env.local.example` to `.env.local` and fill in your league's values
-(or paste them into Vercel's "Environment Variables" step when importing
-the project):
+The site does **not** call ESPN's API live when someone visits — a scheduled
+GitHub Action (`.github/workflows/fetch-espn-data.yml`, running roughly every
+15 minutes) calls ESPN, writes the results into `data/*.json`, and commits
+them. Every commit triggers a fresh Vercel deploy, so the site always shows
+the last synced snapshot rather than making a visitor wait on an external
+API — and each page shows an "Updated N minutes ago" note so it's clear how
+fresh the data is.
 
-| Variable          | Where to find it                                                                 |
-| ------------------ | --------------------------------------------------------------------------------- |
-| `ESPN_LEAGUE_ID`  | The number in your league's ESPN URL (`...leagueId=1234567`)                    |
-| `ESPN_SEASON_ID`  | The season year, e.g. `2026`                                                     |
-| `ESPN_S2`         | Cookie value from a logged-in ESPN session (private leagues only — most are)     |
-| `ESPN_SWID`       | Cookie value from the same place, wrapped in `{curly braces}`                    |
+The league is set to publicly viewable in ESPN's settings, so no login
+cookies are needed — the fetch script only needs `ESPN_LEAGUE_ID` and
+`ESPN_SEASON_ID`, both set directly as plain (non-secret) values in the
+workflow file. Update the season there each year.
 
-These are never sent to the browser — every ESPN call happens server-side in
-`lib/espn.ts`.
+To pull a fresh snapshot immediately instead of waiting for the schedule: go
+to the repo's **Actions** tab → **Fetch ESPN data** → **Run workflow**.
 
 ## Updating weekly content
 
@@ -42,4 +44,10 @@ transactions to write from.
 ```bash
 npm install
 npm run dev
+```
+
+To test the data sync locally:
+
+```bash
+ESPN_LEAGUE_ID=1040047778 ESPN_SEASON_ID=2026 node scripts/fetch-espn-data.mjs
 ```
