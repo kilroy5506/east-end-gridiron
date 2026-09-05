@@ -4,6 +4,7 @@ import { ErrorPanel } from "@/components/ErrorPanel";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
+export const runtime = "edge";
 
 export default async function StatsPage() {
   let snapshot;
