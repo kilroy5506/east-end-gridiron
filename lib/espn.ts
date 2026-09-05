@@ -55,22 +55,50 @@ async function espnFetch<T>(
     }
   }
 
-  const res = await fetch(`${baseUrl()}${path}?${search.toString()}`, {
+  const url = `${baseUrl()}${path}?${search.toString()}`;
+  const res = await fetch(url, {
     headers: {
       Cookie: `espn_s2=${ESPN_S2}; SWID=${SWID}`,
+      Accept: "application/json",
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+      Referer: "https://fantasy.espn.com/",
       ...extraHeaders,
     },
     // Revalidate every 5 minutes so pages stay fresh without hammering ESPN.
     next: { revalidate: 300 },
   });
 
+  // Read as text first (instead of res.json() directly) so a bad response
+  // — empty body, an HTML error page, ESPN's own JSON error payload — comes
+  // through as a specific, actionable message instead of a generic parse
+  // error. This is the detail to paste back if a page shows "Couldn't
+  // reach ESPN": it names the exact status and what ESPN actually sent.
+  const bodyText = await res.text();
+
   if (!res.ok) {
-    throw new Error(`ESPN API request failed (${res.status}) for ${path}`);
+    throw new Error(
+      `ESPN API request failed (${res.status} ${res.statusText}) for ${path || "/"}?${search.toString()}. ` +
+        `Response body: ${bodyText.slice(0, 300) || "(empty)"}`
+    );
   }
 
-  return res.json() as Promise<T>;
+  if (!bodyText) {
+    throw new Error(
+      `ESPN returned an empty response (status ${res.status}) for ${path || "/"}?${search.toString()}. ` +
+        `Most often this means the espn_s2/SWID cookies are stale (log into ESPN again and grab fresh values) ` +
+        `or ESPN_LEAGUE_ID/ESPN_SEASON_ID don't match a league the logged-in account can see.`
+    );
+  }
+
+  try {
+    return JSON.parse(bodyText) as T;
+  } catch {
+    throw new Error(
+      `ESPN returned a non-JSON response (status ${res.status}) for ${path || "/"}?${search.toString()}. ` +
+        `Response body: ${bodyText.slice(0, 300)}`
+    );
+  }
 }
 
 function mapTeam(raw: any): EspnTeam {
