@@ -10,6 +10,7 @@ import type { EspnTeam } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
+export const runtime = "edge";
 
 export default async function TransactionsPage() {
   let transactions: Awaited<ReturnType<typeof getTransactions>> = [];
