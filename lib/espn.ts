@@ -59,14 +59,18 @@ async function espnFetch<T>(
   const res = await fetch(url, {
     headers: {
       Cookie: `espn_s2=${ESPN_S2}; SWID=${SWID}`,
-      Accept: "application/json",
+      Accept: "application/json, text/plain, */*",
+      "Accept-Language": "en-US,en;q=0.9",
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
       Referer: "https://fantasy.espn.com/",
+      Origin: "https://fantasy.espn.com",
       ...extraHeaders,
     },
-    // Revalidate every 5 minutes so pages stay fresh without hammering ESPN.
-    next: { revalidate: 300 },
+    // Debugging a suspected CDN/bot-detection response for now — a cached
+    // empty response would look identical to a fresh one, so caching is off
+    // until we confirm ESPN is actually returning real data.
+    cache: "no-store",
   });
 
   // Read as text first (instead of res.json() directly) so a bad response
@@ -76,9 +80,27 @@ async function espnFetch<T>(
   // reach ESPN": it names the exact status and what ESPN actually sent.
   const bodyText = await res.text();
 
+  // Surfacing a few response headers helps distinguish "ESPN's app server
+  // said no" from "a CDN/bot-defense layer in front of ESPN intercepted
+  // this before it reached ESPN's app at all" — the latter usually shows a
+  // recognizable server/vendor header and near-zero content-length.
+  const debugHeaders = [
+    "server",
+    "content-length",
+    "content-type",
+    "x-akamai-request-id",
+    "cf-ray",
+    "via",
+  ]
+    .map((h) => [h, res.headers.get(h)])
+    .filter(([, v]) => v)
+    .map(([h, v]) => `${h}=${v}`)
+    .join(", ");
+
   if (!res.ok) {
     throw new Error(
       `ESPN API request failed (${res.status} ${res.statusText}) for ${path || "/"}?${search.toString()}. ` +
+        `Headers: ${debugHeaders || "(none of the tracked ones)"}. ` +
         `Response body: ${bodyText.slice(0, 300) || "(empty)"}`
     );
   }
@@ -86,8 +108,10 @@ async function espnFetch<T>(
   if (!bodyText) {
     throw new Error(
       `ESPN returned an empty response (status ${res.status}) for ${path || "/"}?${search.toString()}. ` +
-        `Most often this means the espn_s2/SWID cookies are stale (log into ESPN again and grab fresh values) ` +
-        `or ESPN_LEAGUE_ID/ESPN_SEASON_ID don't match a league the logged-in account can see.`
+        `Headers: ${debugHeaders || "(none of the tracked ones)"}. ` +
+        `Most often this means the espn_s2/SWID cookies are stale (log into ESPN again and grab fresh values), ` +
+        `ESPN_LEAGUE_ID/ESPN_SEASON_ID don't match a visible league, or a CDN in front of ESPN is soft-blocking ` +
+        `this server's requests.`
     );
   }
 
@@ -96,6 +120,7 @@ async function espnFetch<T>(
   } catch {
     throw new Error(
       `ESPN returned a non-JSON response (status ${res.status}) for ${path || "/"}?${search.toString()}. ` +
+        `Headers: ${debugHeaders || "(none of the tracked ones)"}. ` +
         `Response body: ${bodyText.slice(0, 300)}`
     );
   }
