@@ -1,0 +1,37 @@
+name: Fetch ESPN data
+
+on:
+  schedule:
+    # Every 15 minutes. GitHub may delay a scheduled run by a few minutes
+    # during busy periods — that's normal and fine for this use case.
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write # needed to commit the updated data/*.json files back
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    env:
+      # Not secrets — the league is publicly viewable, so these are just
+      # plain IDs, not credentials. Change the season here each year.
+      ESPN_LEAGUE_ID: "1040047778"
+      ESPN_SEASON_ID: "2026"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch latest ESPN data
+        run: node scripts/fetch-espn-data.mjs
+
+      - name: Commit updated data (if anything changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Update ESPN data snapshot"
+          git push
