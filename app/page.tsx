@@ -7,6 +7,7 @@ import { newsPosts } from "@/content/news";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
+export const runtime = "edge";
 
 export default async function Home() {
   let snapshot: Awaited<ReturnType<typeof getLeagueSnapshot>> | undefined;
