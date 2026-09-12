@@ -1,9 +1,15 @@
-// Runs on a schedule via .github/workflows/fetch-espn-data.yml (on GitHub's
-// own servers, not Vercel's) and writes the results into data/*.json, which
-// the website reads directly instead of calling ESPN on every page load.
+// Writes the results into data/*.json, which the website reads directly
+// instead of calling ESPN on every page load.
 //
-// This league is set to publicly viewable, so no login cookies are needed —
-// just the league ID and season, both plain (non-secret) values.
+// IMPORTANT: this uses lm-api-reads.fantasy.espn.com, not fantasy.espn.com.
+// The old fantasy.espn.com/apis/v3/... address (still referenced in a lot
+// of older blog posts and libraries) silently blocked every request we
+// sent it, from every environment we tried — Vercel, GitHub Actions, and
+// even a script run locally with a freshly-captured session cookie. We
+// found the real, current address by watching what ESPN's own site
+// actually calls (via a real browser), and a plain request to it — no
+// cookies, no browser — works fine. The league is publicly viewable, so
+// ESPN_LEAGUE_ID/ESPN_SEASON_ID are all that's required.
 
 import { writeFile, mkdir } from "node:fs/promises";
 
@@ -15,7 +21,7 @@ if (!LEAGUE_ID || !SEASON_ID) {
   process.exit(1);
 }
 
-const BASE = `https://fantasy.espn.com/apis/v3/games/ffl/seasons/${SEASON_ID}/segments/0/leagues/${LEAGUE_ID}`;
+const BASE = `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/${SEASON_ID}/segments/0/leagues/${LEAGUE_ID}`;
 const BROWSER_HEADERS = {
   Accept: "application/json, text/plain, */*",
   "Accept-Language": "en-US,en;q=0.9",
@@ -131,7 +137,7 @@ async function main() {
   if (playerIds.length > 0) {
     try {
       const res = await fetch(
-        `https://fantasy.espn.com/apis/v3/games/ffl/seasons/${SEASON_ID}/players?scoringPeriodId=0&view=players_wl`,
+        `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/${SEASON_ID}/players?scoringPeriodId=0&view=players_wl`,
         {
           headers: {
             ...BROWSER_HEADERS,
