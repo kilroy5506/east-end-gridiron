@@ -36,14 +36,14 @@ export interface EspnMatchup {
 
 export interface EspnTransactionItem {
   playerId: number;
-  type: string; // ADD, DROP, TRADE, etc.
+  type: string;
   fromTeamId?: number;
   toTeamId?: number;
 }
 
 export interface EspnTransaction {
   id: string;
-  type: string; // WAIVER, FREEAGENT, TRADE, ROSTER, etc.
+  type: string;
   status: string;
   proposedDate?: number;
   teamId?: number;
@@ -55,6 +55,8 @@ export interface LeagueSnapshot {
   size: number;
   currentWeek: number;
   seasonId: string;
+  scoringFormat: string;
+  pointsPerReception: number;
   teams: EspnTeam[];
 }
 
