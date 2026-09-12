@@ -55,6 +55,10 @@ function mapTeam(raw, membersById) {
       pointsFor: raw.record?.overall?.pointsFor ?? 0,
       pointsAgainst: raw.record?.overall?.pointsAgainst ?? 0,
     },
+    // Full owner name(s), e.g. ["Michael Farris"] — from ESPN's league
+    // "members" list, matched by the team's owners (member id) array.
+    // Falls back to an empty array if ESPN didn't include member info for
+    // whatever view combination was requested.
     owners: (raw.owners ?? [])
       .map((memberId) => membersById.get(memberId))
       .filter((name) => Boolean(name)),
@@ -64,7 +68,9 @@ function mapTeam(raw, membersById) {
 function buildMembersById(leagueRaw) {
   const membersById = new Map();
   for (const m of leagueRaw.members ?? []) {
-    const fullName = `${m.firstName ?? ""} ${m.lastName ?? ""}`.trim();
+    // .replace collapses any stray double spaces ESPN sometimes leaves in
+    // firstName/lastName (e.g. a trailing space saved in someone's profile).
+    const fullName = `${m.firstName ?? ""} ${m.lastName ?? ""}`.replace(/\s+/g, " ").trim();
     membersById.set(m.id, fullName || m.displayName || m.id);
   }
   return membersById;
@@ -89,6 +95,9 @@ async function main() {
 
   const currentWeek = leagueRaw.status?.currentMatchupPeriod ?? leagueRaw.scoringPeriodId ?? 1;
 
+  // Reception scoring value (statId 53, falling back to 41 — ESPN's two
+  // "receptions" stat ids) tells us PPR / Half-PPR / Standard automatically,
+  // so this doesn't need to be hand-configured per league.
   const scoringItems = leagueRaw.settings?.scoringSettings?.scoringItems ?? [];
   const receptionPoints =
     scoringItems.find((s) => s.statId === 53)?.points ??
@@ -116,13 +125,21 @@ async function main() {
   );
   console.log(`league.json: ${teams.length} teams, week ${currentWeek}`);
 
+  // --- Roster data: live per-player points, used for both the top-scorers
+  // list AND to compute each team's live weekly total ourselves ----------
+  // ESPN's matchup/scoreboard endpoint (below) only reports a team's
+  // "totalPoints" once the week is officially scored — mid-week it comes
+  // back as a flat 0 for everyone, even though real points already exist.
+  // Individual player stats, on the other hand, ARE live. So rather than
+  // trust ESPN's matchup-level total, we add up each team's own starting
+  // lineup (excluding bench/IR slots) from this same roster data.
   const rosterParams = new URLSearchParams();
   rosterParams.append("view", "mRoster");
   rosterParams.append("view", "mTeam");
   rosterParams.append("scoringPeriodId", String(currentWeek));
   const rosterRaw = await espnFetch(rosterParams);
 
-  const BENCH_SLOTS = new Set([20, 21]);
+  const BENCH_SLOTS = new Set([20, 21]); // Bench, IR — excluded from live team totals
   const liveTeamTotals = {};
   const leaders = [];
   for (const team of rosterRaw.teams ?? []) {
@@ -155,6 +172,7 @@ async function main() {
   );
   console.log(`stats.json: ${leaders.length} rostered players considered`);
 
+  // --- This week's matchups -------------------------------------------
   const sbParams = new URLSearchParams();
   sbParams.append("view", "mMatchupScore");
   sbParams.append("view", "mScoreboard");
@@ -187,6 +205,7 @@ async function main() {
   );
   console.log(`scoreboard.json: ${matchups.length} matchups`);
 
+  // --- Transactions (most recent 30, for the ticker) ---------------------
   const txParams = new URLSearchParams();
   txParams.append("view", "mTransactions2");
   const txRaw = await espnFetch(txParams);
@@ -203,6 +222,7 @@ async function main() {
     .sort((a, b) => (b.proposedDate ?? 0) - (a.proposedDate ?? 0))
     .slice(0, 30);
 
+  // --- Full draft board (every pick, not just recent activity) -----------
   const draftParams = new URLSearchParams();
   draftParams.append("view", "mDraftDetail");
   const draftRaw = await espnFetch(draftParams);
@@ -218,6 +238,8 @@ async function main() {
     }))
     .sort((a, b) => a.overallPickNumber - b.overallPickNumber);
 
+  // --- One shared player-name lookup, covering both the transaction feed
+  // and the full draft board -------------------------------------------
   const playerIds = [
     ...new Set([
       ...transactions.flatMap((t) => t.items.map((i) => i.playerId)),
