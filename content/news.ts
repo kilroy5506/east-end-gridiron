@@ -3,7 +3,14 @@ export interface NewsPost {
   title: string;
   date: string;
   excerpt: string;
-  body: string[];
+  /**
+   * Markdown-lite: blank-line-separated paragraphs, "## Heading" /
+   * "### Subheading" (auto-linkable via an id built from the heading
+   * text), "---" as a divider, "- " list items, and inline **bold** /
+   * [text](url) (internal anchors like #team-3 work too). Rendered by
+   * lib/markdown-lite.tsx — see that file for exactly what's supported.
+   */
+  body: string;
 }
 
 /**
@@ -19,10 +26,10 @@ export const newsPosts: NewsPost[] = [
     date: new Date().toISOString().slice(0, 10),
     excerpt:
       "Standings, power rankings, stat leaders, and the transaction wire, all in one place. Here's what's live and what's coming.",
-    body: [
-      "East End Gridiron Championship HQ is live. Standings and this week's matchups pull straight from ESPN, so the numbers here are always current — no more digging through the app.",
-      "Power Rankings and the weekly recap column are where the league's actual personality shows up. Expect both to update after games wrap each week.",
-      "Comments are coming next, so you'll be able to argue about the rankings directly on the site instead of in six different groupchats.",
-    ],
+    body: `East End Gridiron Championship HQ is live. Standings and this week's matchups pull straight from ESPN, so the numbers here are always current — no more digging through the app.
+
+Power Rankings and the weekly recap column are where the league's actual personality shows up. Expect both to update after games wrap each week.
+
+Comments are coming next, so you'll be able to argue about the rankings directly on the site instead of in six different groupchats.`,
   },
 ];

@@ -42,7 +42,7 @@ async function espnFetch(params) {
   return JSON.parse(text);
 }
 
-function mapTeam(raw) {
+function mapTeam(raw, membersById) {
   return {
     id: raw.id,
     abbrev: raw.abbrev,
@@ -55,7 +55,23 @@ function mapTeam(raw) {
       pointsFor: raw.record?.overall?.pointsFor ?? 0,
       pointsAgainst: raw.record?.overall?.pointsAgainst ?? 0,
     },
+    // Full owner name(s), e.g. ["Michael Farris"] — from ESPN's league
+    // "members" list, matched by the team's owners (member id) array.
+    // Falls back to an empty array if ESPN didn't include member info for
+    // whatever view combination was requested.
+    owners: (raw.owners ?? [])
+      .map((memberId) => membersById.get(memberId))
+      .filter((name) => Boolean(name)),
   };
+}
+
+function buildMembersById(leagueRaw) {
+  const membersById = new Map();
+  for (const m of leagueRaw.members ?? []) {
+    const fullName = `${m.firstName ?? ""} ${m.lastName ?? ""}`.trim();
+    membersById.set(m.id, fullName || m.displayName || m.id);
+  }
+  return membersById;
 }
 
 async function main() {
@@ -68,7 +84,8 @@ async function main() {
   leagueParams.append("view", "mSettings");
   const leagueRaw = await espnFetch(leagueParams);
 
-  const teams = (leagueRaw.teams ?? []).map(mapTeam);
+  const membersById = buildMembersById(leagueRaw);
+  const teams = (leagueRaw.teams ?? []).map((t) => mapTeam(t, membersById));
   teams.sort(
     (a, b) => b.record.wins - a.record.wins || b.record.pointsFor - a.record.pointsFor
   );
@@ -173,7 +190,7 @@ async function main() {
   );
   console.log(`scoreboard.json: ${matchups.length} matchups`);
 
-  // --- Transactions, with player names resolved ------------------------
+  // --- Transactions (most recent 30, for the ticker) ---------------------
   const txParams = new URLSearchParams();
   txParams.append("view", "mTransactions2");
   const txRaw = await espnFetch(txParams);
@@ -190,7 +207,30 @@ async function main() {
     .sort((a, b) => (b.proposedDate ?? 0) - (a.proposedDate ?? 0))
     .slice(0, 30);
 
-  const playerIds = [...new Set(transactions.flatMap((t) => t.items.map((i) => i.playerId)))];
+  // --- Full draft board (every pick, not just recent activity) -----------
+  const draftParams = new URLSearchParams();
+  draftParams.append("view", "mDraftDetail");
+  const draftRaw = await espnFetch(draftParams);
+
+  const picks = (draftRaw.draftDetail?.picks ?? [])
+    .map((p) => ({
+      overallPickNumber: p.overallPickNumber,
+      round: p.roundId,
+      roundPickNumber: p.roundPickNumber,
+      teamId: p.teamId,
+      playerId: p.playerId,
+      keeper: Boolean(p.keeper),
+    }))
+    .sort((a, b) => a.overallPickNumber - b.overallPickNumber);
+
+  // --- One shared player-name lookup, covering both the transaction feed
+  // and the full draft board -------------------------------------------
+  const playerIds = [
+    ...new Set([
+      ...transactions.flatMap((t) => t.items.map((i) => i.playerId)),
+      ...picks.map((p) => p.playerId),
+    ]),
+  ];
   const playerNames = {};
   if (playerIds.length > 0) {
     try {
@@ -219,6 +259,16 @@ async function main() {
     JSON.stringify({ fetchedAt, transactions, playerNames }, null, 2)
   );
   console.log(`transactions.json: ${transactions.length} transactions`);
+
+  await writeFile(
+    "data/draft.json",
+    JSON.stringify(
+      { fetchedAt, seasonId: SEASON_ID, drafted: Boolean(draftRaw.draftDetail?.drafted), picks, playerNames },
+      null,
+      2
+    )
+  );
+  console.log(`draft.json: ${picks.length} picks`);
 
   console.log(`Done. Snapshot taken at ${fetchedAt}`);
 }

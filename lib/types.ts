@@ -66,6 +66,15 @@ export interface RosterPointsLeader {
   position?: string;
 }
 
+export interface DraftPick {
+  overallPickNumber: number;
+  round: number;
+  roundPickNumber: number;
+  teamId: number;
+  playerId: number;
+  keeper: boolean;
+}
+
 // --- Shapes of the data/*.json snapshot files -----------------------------
 // Cast JSON imports to these explicitly (see lib/data.ts) rather than
 // relying on TypeScript's inferred type for the JSON file's *current*
@@ -92,4 +101,12 @@ export interface StatsData {
   fetchedAt: string | null;
   week: number;
   leaders: RosterPointsLeader[];
+}
+
+export interface DraftData {
+  fetchedAt: string | null;
+  seasonId: string;
+  drafted: boolean;
+  picks: DraftPick[];
+  playerNames: Record<number, string>;
 }

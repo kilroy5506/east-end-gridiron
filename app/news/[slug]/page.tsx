@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { newsPosts } from "@/content/news";
 import { formatDate } from "@/lib/format";
+import { MarkdownLite } from "@/lib/markdown-lite";
 
 export function generateStaticParams() {
   return newsPosts.map((post) => ({ slug: post.slug }));
@@ -28,9 +29,7 @@ export default async function NewsPostPage({
         <h1 className="font-heading text-3xl font-bold mt-1 text-balance">{post.title}</h1>
       </div>
       <div className="flex flex-col gap-4 text-foreground/90 leading-relaxed">
-        {post.body.map((para, i) => (
-          <p key={i}>{para}</p>
-        ))}
+        <MarkdownLite content={post.body} />
       </div>
     </article>
   );

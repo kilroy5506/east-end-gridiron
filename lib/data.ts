@@ -12,7 +12,9 @@ import leagueDataRaw from "@/data/league.json";
 import scoreboardDataRaw from "@/data/scoreboard.json";
 import transactionsDataRaw from "@/data/transactions.json";
 import statsDataRaw from "@/data/stats.json";
+import draftDataRaw from "@/data/draft.json";
 import type {
+  DraftData,
   EspnTeam,
   LeagueData,
   ScoreboardData,
@@ -26,6 +28,7 @@ const leagueData = leagueDataRaw as LeagueData;
 const scoreboardData = scoreboardDataRaw as ScoreboardData;
 const transactionsData = transactionsDataRaw as TransactionsData;
 const statsData = statsDataRaw as StatsData;
+const draftData = draftDataRaw as DraftData;
 
 export function teamName(team: EspnTeam): string {
   const name = `${team.location ?? ""} ${team.nickname ?? ""}`.trim();
@@ -46,4 +49,14 @@ export function getTransactionsData(): TransactionsData {
 
 export function getStatsData(): StatsData {
   return statsData;
+}
+
+export function getDraftData(): DraftData {
+  return draftData;
+}
+
+/** Full name(s) of a team's owner(s), or a graceful fallback if ESPN didn't
+ *  return member info for this league/view. */
+export function ownerNames(team: EspnTeam): string {
+  return team.owners && team.owners.length > 0 ? team.owners.join(" & ") : "";
 }
