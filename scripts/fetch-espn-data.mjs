@@ -94,9 +94,13 @@ async function main() {
   console.log(`league.json: ${teams.length} teams, week ${currentWeek}`);
 
   // --- This week's matchups -------------------------------------------
+  // scoringPeriodId is required here to get *live*, in-progress totals —
+  // without it ESPN returns the matchup structure with every score at 0,
+  // even mid-week with real points already on the board.
   const sbParams = new URLSearchParams();
   sbParams.append("view", "mMatchupScore");
   sbParams.append("view", "mScoreboard");
+  sbParams.append("scoringPeriodId", String(currentWeek));
   const sbRaw = await espnFetch(sbParams);
 
   const matchups = (sbRaw.schedule ?? [])
