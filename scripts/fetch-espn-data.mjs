@@ -93,10 +93,54 @@ async function main() {
   );
   console.log(`league.json: ${teams.length} teams, week ${currentWeek}`);
 
+  // --- Roster data: live per-player points, used for both the top-scorers
+  // list AND to compute each team's live weekly total ourselves ----------
+  // ESPN's matchup/scoreboard endpoint (below) only reports a team's
+  // "totalPoints" once the week is officially scored — mid-week it comes
+  // back as a flat 0 for everyone, even though real points already exist.
+  // Individual player stats, on the other hand, ARE live. So rather than
+  // trust ESPN's matchup-level total, we add up each team's own starting
+  // lineup (excluding bench/IR slots) from this same roster data.
+  const rosterParams = new URLSearchParams();
+  rosterParams.append("view", "mRoster");
+  rosterParams.append("view", "mTeam");
+  rosterParams.append("scoringPeriodId", String(currentWeek));
+  const rosterRaw = await espnFetch(rosterParams);
+
+  const BENCH_SLOTS = new Set([20, 21]); // Bench, IR — excluded from live team totals
+  const liveTeamTotals = {};
+  const leaders = [];
+  for (const team of rosterRaw.teams ?? []) {
+    let teamTotal = 0;
+    for (const entry of team.roster?.entries ?? []) {
+      const poolEntry = entry.playerPoolEntry;
+      const player = poolEntry?.player;
+      if (!player) continue;
+      const statLine = (player.stats ?? []).find(
+        (s) => s.scoringPeriodId === currentWeek && s.statSourceId === 0
+      );
+      const points = statLine?.appliedTotal ?? poolEntry?.appliedStatTotal ?? 0;
+      leaders.push({
+        playerId: player.id,
+        playerName: player.fullName ?? `Player #${player.id}`,
+        teamId: team.id,
+        points,
+      });
+      if (!BENCH_SLOTS.has(entry.lineupSlotId)) {
+        teamTotal += points;
+      }
+    }
+    liveTeamTotals[team.id] = Math.round(teamTotal * 100) / 100;
+  }
+  leaders.sort((a, b) => b.points - a.points);
+
+  await writeFile(
+    "data/stats.json",
+    JSON.stringify({ fetchedAt, week: currentWeek, leaders: leaders.slice(0, 10) }, null, 2)
+  );
+  console.log(`stats.json: ${leaders.length} rostered players considered`);
+
   // --- This week's matchups -------------------------------------------
-  // scoringPeriodId is required here to get *live*, in-progress totals —
-  // without it ESPN returns the matchup structure with every score at 0,
-  // even mid-week with real points already on the board.
   const sbParams = new URLSearchParams();
   sbParams.append("view", "mMatchupScore");
   sbParams.append("view", "mScoreboard");
@@ -108,8 +152,18 @@ async function main() {
     .map((m) => ({
       id: m.id,
       matchupPeriodId: m.matchupPeriodId,
-      home: m.home ? { teamId: m.home.teamId, totalPoints: m.home.totalPoints ?? 0 } : undefined,
-      away: m.away ? { teamId: m.away.teamId, totalPoints: m.away.totalPoints ?? 0 } : undefined,
+      home: m.home
+        ? {
+            teamId: m.home.teamId,
+            totalPoints: liveTeamTotals[m.home.teamId] ?? m.home.totalPoints ?? 0,
+          }
+        : undefined,
+      away: m.away
+        ? {
+            teamId: m.away.teamId,
+            totalPoints: liveTeamTotals[m.away.teamId] ?? m.away.totalPoints ?? 0,
+          }
+        : undefined,
       winner: m.winner,
     }));
 
@@ -165,38 +219,6 @@ async function main() {
     JSON.stringify({ fetchedAt, transactions, playerNames }, null, 2)
   );
   console.log(`transactions.json: ${transactions.length} transactions`);
-
-  // --- This week's top scorers, across every roster ---------------------
-  const rosterParams = new URLSearchParams();
-  rosterParams.append("view", "mRoster");
-  rosterParams.append("view", "mTeam");
-  rosterParams.append("scoringPeriodId", String(currentWeek));
-  const rosterRaw = await espnFetch(rosterParams);
-
-  const leaders = [];
-  for (const team of rosterRaw.teams ?? []) {
-    for (const entry of team.roster?.entries ?? []) {
-      const poolEntry = entry.playerPoolEntry;
-      const player = poolEntry?.player;
-      if (!player) continue;
-      const statLine = (player.stats ?? []).find(
-        (s) => s.scoringPeriodId === currentWeek && s.statSourceId === 0
-      );
-      leaders.push({
-        playerId: player.id,
-        playerName: player.fullName ?? `Player #${player.id}`,
-        teamId: team.id,
-        points: statLine?.appliedTotal ?? poolEntry?.appliedStatTotal ?? 0,
-      });
-    }
-  }
-  leaders.sort((a, b) => b.points - a.points);
-
-  await writeFile(
-    "data/stats.json",
-    JSON.stringify({ fetchedAt, week: currentWeek, leaders: leaders.slice(0, 10) }, null, 2)
-  );
-  console.log(`stats.json: ${leaders.length} rostered players considered`);
 
   console.log(`Done. Snapshot taken at ${fetchedAt}`);
 }
