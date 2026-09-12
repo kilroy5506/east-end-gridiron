@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-12T05:28:31.092Z",
+  "fetchedAt": "2026-09-12T05:38:47.167Z",
   "leagueName": "East End Gridiron Championship",
   "size": 10,
   "currentWeek": 1,
@@ -15,6 +15,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Michael Farris"
+      ],
       "rank": 1
     },
     {
@@ -27,6 +30,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Nick Yacovazzi"
+      ],
       "rank": 2
     },
     {
@@ -39,6 +45,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Jeff McCormick"
+      ],
       "rank": 3
     },
     {
@@ -51,6 +60,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Jonathan  Avery"
+      ],
       "rank": 4
     },
     {
@@ -63,6 +75,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Brandon Baxter"
+      ],
       "rank": 5
     },
     {
@@ -75,6 +90,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Daniel Foster"
+      ],
       "rank": 6
     },
     {
@@ -87,6 +105,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "jacob reedy"
+      ],
       "rank": 7
     },
     {
@@ -99,6 +120,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Will Hadley"
+      ],
       "rank": 8
     },
     {
@@ -111,6 +135,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "Shep Shepherd"
+      ],
       "rank": 9
     },
     {
@@ -123,6 +150,9 @@
         "pointsFor": 0,
         "pointsAgainst": 0
       },
+      "owners": [
+        "John Bregger"
+      ],
       "rank": 10
     }
   ]
