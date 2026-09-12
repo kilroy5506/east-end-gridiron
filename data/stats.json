@@ -1,5 +1,66 @@
 {
-  "fetchedAt": null,
+  "fetchedAt": "2026-09-12T00:07:37.991Z",
   "week": 1,
-  "leaders": []
+  "leaders": [
+    {
+      "playerId": 4430878,
+      "playerName": "Jaxon Smith-Njigba",
+      "teamId": 4,
+      "points": 26.2
+    },
+    {
+      "playerId": 4361741,
+      "playerName": "Brock Purdy",
+      "teamId": 10,
+      "points": 21.1
+    },
+    {
+      "playerId": 3126486,
+      "playerName": "Deebo Samuel Sr.",
+      "teamId": 8,
+      "points": 18
+    },
+    {
+      "playerId": 16737,
+      "playerName": "Mike Evans",
+      "teamId": 1,
+      "points": 16.9
+    },
+    {
+      "playerId": 4430737,
+      "playerName": "Kyren Williams",
+      "teamId": 3,
+      "points": 15.5
+    },
+    {
+      "playerId": 4569173,
+      "playerName": "Rhamondre Stevenson",
+      "teamId": 7,
+      "points": 14.5
+    },
+    {
+      "playerId": -16026,
+      "playerName": "Seahawks D/ST",
+      "teamId": 8,
+      "points": 14
+    },
+    {
+      "playerId": 3117251,
+      "playerName": "Christian McCaffrey",
+      "teamId": 1,
+      "points": 13.8
+    },
+    {
+      "playerId": 4426515,
+      "playerName": "Puka Nacua",
+      "teamId": 8,
+      "points": 12.4
+    },
+    {
+      "playerId": 4034949,
+      "playerName": "Eddy Pineiro",
+      "teamId": 4,
+      "points": 10
+    }
+  ]
 }
