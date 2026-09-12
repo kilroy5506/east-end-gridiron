@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLeagueSnapshot, getScoreboard, teamName } from "@/lib/data";
+import { getLeagueSnapshot, getScoreboard, ownerNames, teamName } from "@/lib/data";
 import { formatPoints, formatRecord } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 import { powerRankings } from "@/content/power-rankings";
@@ -46,7 +46,12 @@ export default function Home() {
                 {snapshot.teams.map((team) => (
                   <tr key={team.id} className="border-b border-border last:border-0">
                     <td className="py-2.5 pl-4 pr-2 text-muted font-mono-num">{team.rank}</td>
-                    <td className="py-2.5 px-2 font-medium">{teamName(team)}</td>
+                    <td className="py-2.5 px-2">
+                      <div className="font-medium">{teamName(team)}</div>
+                      {ownerNames(team) && ownerNames(team) !== teamName(team) && (
+                        <div className="text-xs text-muted">{ownerNames(team)}</div>
+                      )}
+                    </td>
                     <td className="py-2.5 px-2 text-right font-mono-num text-muted">
                       {formatRecord(team.record.wins, team.record.losses, team.record.ties)}
                     </td>
