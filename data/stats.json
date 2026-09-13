@@ -1,36 +1,42 @@
 {
-  "fetchedAt": "2026-09-13T19:51:34.814Z",
+  "fetchedAt": "2026-09-13T20:12:13.532Z",
   "week": 1,
   "leaders": [
-    {
-      "playerId": 3043078,
-      "playerName": "Derrick Henry",
-      "teamId": 8,
-      "points": 32.6
-    },
     {
       "playerId": 4431611,
       "playerName": "Caleb Williams",
       "teamId": 1,
-      "points": 31
-    },
-    {
-      "playerId": 4430807,
-      "playerName": "Bijan Robinson",
-      "teamId": 10,
-      "points": 29.3
-    },
-    {
-      "playerId": 4035538,
-      "playerName": "David Montgomery",
-      "teamId": 9,
-      "points": 28.8
+      "points": 37.26
     },
     {
       "playerId": 3918298,
       "playerName": "Josh Allen",
       "teamId": 4,
-      "points": 28.48
+      "points": 35.76
+    },
+    {
+      "playerId": 3043078,
+      "playerName": "Derrick Henry",
+      "teamId": 8,
+      "points": 35.3
+    },
+    {
+      "playerId": 4430807,
+      "playerName": "Bijan Robinson",
+      "teamId": 10,
+      "points": 31.3
+    },
+    {
+      "playerId": 4429795,
+      "playerName": "Jahmyr Gibbs",
+      "teamId": 7,
+      "points": 29.1
+    },
+    {
+      "playerId": 4035538,
+      "playerName": "David Montgomery",
+      "teamId": 9,
+      "points": 28.9
     },
     {
       "playerId": 4430878,
@@ -51,16 +57,10 @@
       "points": 26
     },
     {
-      "playerId": 4242335,
-      "playerName": "Jonathan Taylor",
-      "teamId": 6,
-      "points": 25.1
-    },
-    {
-      "playerId": 4429795,
-      "playerName": "Jahmyr Gibbs",
-      "teamId": 7,
-      "points": 24.7
+      "playerId": 4361370,
+      "playerName": "Chris Olave",
+      "teamId": 8,
+      "points": 25.2
     }
   ]
 }
