@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T21:26:53.343Z",
+  "fetchedAt": "2026-09-13T21:40:59.784Z",
   "week": 1,
   "matchups": [
     {
@@ -7,11 +7,11 @@
       "matchupPeriodId": 1,
       "home": {
         "teamId": 9,
-        "totalPoints": 110.66
+        "totalPoints": 112.16
       },
       "away": {
         "teamId": 6,
-        "totalPoints": 75.28
+        "totalPoints": 77.92
       },
       "winner": "UNDECIDED"
     },
@@ -33,11 +33,11 @@
       "matchupPeriodId": 1,
       "home": {
         "teamId": 4,
-        "totalPoints": 153.06
+        "totalPoints": 153.76
       },
       "away": {
         "teamId": 10,
-        "totalPoints": 109.8
+        "totalPoints": 112.2
       },
       "winner": "UNDECIDED"
     },
@@ -46,11 +46,11 @@
       "matchupPeriodId": 1,
       "home": {
         "teamId": 3,
-        "totalPoints": 66.26
+        "totalPoints": 64.26
       },
       "away": {
         "teamId": 7,
-        "totalPoints": 92.02
+        "totalPoints": 102.22
       },
       "winner": "UNDECIDED"
     },
@@ -59,11 +59,11 @@
       "matchupPeriodId": 1,
       "home": {
         "teamId": 1,
-        "totalPoints": 118.16
+        "totalPoints": 118.36
       },
       "away": {
         "teamId": 2,
-        "totalPoints": 77.74
+        "totalPoints": 81.1
       },
       "winner": "UNDECIDED"
     }
