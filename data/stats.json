@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T18:13:45.799Z",
+  "fetchedAt": "2026-09-13T18:31:58.002Z",
   "week": 1,
   "leaders": [
     {
@@ -12,7 +12,19 @@
       "playerId": 4429615,
       "playerName": "Zay Flowers",
       "teamId": 4,
-      "points": 23.8
+      "points": 26
+    },
+    {
+      "playerId": 3918298,
+      "playerName": "Josh Allen",
+      "teamId": 4,
+      "points": 24.92
+    },
+    {
+      "playerId": 3043078,
+      "playerName": "Derrick Henry",
+      "teamId": 8,
+      "points": 21.2
     },
     {
       "playerId": 4361741,
@@ -21,15 +33,15 @@
       "points": 21.1
     },
     {
-      "playerId": 3916387,
-      "playerName": "Lamar Jackson",
-      "teamId": 9,
-      "points": 20.18
-    },
-    {
       "playerId": 4432620,
       "playerName": "Parker Washington",
       "teamId": 5,
+      "points": 19.3
+    },
+    {
+      "playerId": 4430807,
+      "playerName": "Bijan Robinson",
+      "teamId": 10,
       "points": 19.3
     },
     {
@@ -39,28 +51,16 @@
       "points": 18.84
     },
     {
-      "playerId": 3126486,
-      "playerName": "Deebo Samuel Sr.",
-      "teamId": 8,
-      "points": 18
-    },
-    {
-      "playerId": 4431611,
-      "playerName": "Caleb Williams",
-      "teamId": 1,
-      "points": 17.46
+      "playerId": 3916387,
+      "playerName": "Lamar Jackson",
+      "teamId": 9,
+      "points": 18.66
     },
     {
       "playerId": 4035538,
       "playerName": "David Montgomery",
       "teamId": 9,
-      "points": 17.2
-    },
-    {
-      "playerId": 4430807,
-      "playerName": "Bijan Robinson",
-      "teamId": 10,
-      "points": 17.2
+      "points": 18.5
     }
   ]
 }
