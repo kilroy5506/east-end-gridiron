@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T16:55:43.270Z",
+  "fetchedAt": "2026-09-13T17:12:07.066Z",
   "week": 1,
   "leaders": [
     {
@@ -57,10 +57,10 @@
       "points": 12.4
     },
     {
-      "playerId": 4034949,
-      "playerName": "Eddy Pineiro",
-      "teamId": 4,
-      "points": 10
+      "playerId": -16030,
+      "playerName": "Jaguars D/ST",
+      "teamId": 9,
+      "points": 12
     }
   ]
 }
