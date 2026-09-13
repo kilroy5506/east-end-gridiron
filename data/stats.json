@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T17:12:07.066Z",
+  "fetchedAt": "2026-09-13T17:26:42.164Z",
   "week": 1,
   "leaders": [
     {
@@ -57,10 +57,10 @@
       "points": 12.4
     },
     {
-      "playerId": -16030,
-      "playerName": "Jaguars D/ST",
-      "teamId": 9,
-      "points": 12
+      "playerId": 4432620,
+      "playerName": "Parker Washington",
+      "teamId": 5,
+      "points": 12.1
     }
   ]
 }
