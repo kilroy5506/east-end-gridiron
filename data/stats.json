@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T22:55:03.641Z",
+  "fetchedAt": "2026-09-13T23:10:57.061Z",
   "week": 1,
   "leaders": [
     {
@@ -27,16 +27,16 @@
       "points": 33.6
     },
     {
+      "playerId": 4890973,
+      "playerName": "Ashton Jeanty",
+      "teamId": 7,
+      "points": 33
+    },
+    {
       "playerId": 4259545,
       "playerName": "D'Andre Swift",
       "teamId": 1,
       "points": 32.4
-    },
-    {
-      "playerId": 4890973,
-      "playerName": "Ashton Jeanty",
-      "teamId": 7,
-      "points": 32.3
     },
     {
       "playerId": 4430807,
