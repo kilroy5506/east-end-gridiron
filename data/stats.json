@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T17:51:31.734Z",
+  "fetchedAt": "2026-09-13T18:13:45.799Z",
   "week": 1,
   "leaders": [
     {
@@ -9,10 +9,34 @@
       "points": 26.2
     },
     {
+      "playerId": 4429615,
+      "playerName": "Zay Flowers",
+      "teamId": 4,
+      "points": 23.8
+    },
+    {
       "playerId": 4361741,
       "playerName": "Brock Purdy",
       "teamId": 10,
       "points": 21.1
+    },
+    {
+      "playerId": 3916387,
+      "playerName": "Lamar Jackson",
+      "teamId": 9,
+      "points": 20.18
+    },
+    {
+      "playerId": 4432620,
+      "playerName": "Parker Washington",
+      "teamId": 5,
+      "points": 19.3
+    },
+    {
+      "playerId": 4360310,
+      "playerName": "Trevor Lawrence",
+      "teamId": 3,
+      "points": 18.84
     },
     {
       "playerId": 3126486,
@@ -21,46 +45,22 @@
       "points": 18
     },
     {
-      "playerId": 16737,
-      "playerName": "Mike Evans",
+      "playerId": 4431611,
+      "playerName": "Caleb Williams",
       "teamId": 1,
-      "points": 16.9
+      "points": 17.46
     },
     {
-      "playerId": 4432620,
-      "playerName": "Parker Washington",
-      "teamId": 5,
-      "points": 16.9
-    },
-    {
-      "playerId": 4430737,
-      "playerName": "Kyren Williams",
-      "teamId": 3,
-      "points": 15.5
+      "playerId": 4035538,
+      "playerName": "David Montgomery",
+      "teamId": 9,
+      "points": 17.2
     },
     {
       "playerId": 4430807,
       "playerName": "Bijan Robinson",
       "teamId": 10,
-      "points": 14.8
-    },
-    {
-      "playerId": 4569173,
-      "playerName": "Rhamondre Stevenson",
-      "teamId": 7,
-      "points": 14.5
-    },
-    {
-      "playerId": -16026,
-      "playerName": "Seahawks D/ST",
-      "teamId": 8,
-      "points": 14
-    },
-    {
-      "playerId": -16030,
-      "playerName": "Jaguars D/ST",
-      "teamId": 9,
-      "points": 14
+      "points": 17.2
     }
   ]
 }
