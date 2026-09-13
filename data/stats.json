@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T21:52:02.418Z",
+  "fetchedAt": "2026-09-13T22:11:46.710Z",
   "week": 1,
   "leaders": [
     {
@@ -39,6 +39,12 @@
       "points": 31.3
     },
     {
+      "playerId": 4248528,
+      "playerName": "Christian Watson",
+      "teamId": 6,
+      "points": 30.1
+    },
+    {
       "playerId": 4035538,
       "playerName": "David Montgomery",
       "teamId": 9,
@@ -55,12 +61,6 @@
       "playerName": "Chris Olave",
       "teamId": 8,
       "points": 28.2
-    },
-    {
-      "playerId": 4430878,
-      "playerName": "Jaxon Smith-Njigba",
-      "teamId": 4,
-      "points": 26.2
     }
   ]
 }
