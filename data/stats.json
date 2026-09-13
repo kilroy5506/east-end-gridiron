@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T22:27:41.340Z",
+  "fetchedAt": "2026-09-13T22:42:59.501Z",
   "week": 1,
   "leaders": [
     {
@@ -39,16 +39,16 @@
       "points": 31.3
     },
     {
+      "playerId": 4890973,
+      "playerName": "Ashton Jeanty",
+      "teamId": 7,
+      "points": 30.9
+    },
+    {
       "playerId": 4248528,
       "playerName": "Christian Watson",
       "teamId": 6,
       "points": 30.1
-    },
-    {
-      "playerId": 4890973,
-      "playerName": "Ashton Jeanty",
-      "teamId": 7,
-      "points": 29.5
     },
     {
       "playerId": 4035538,
