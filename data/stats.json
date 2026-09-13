@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T19:10:16.873Z",
+  "fetchedAt": "2026-09-13T19:24:24.784Z",
   "week": 1,
   "leaders": [
     {
@@ -7,6 +7,12 @@
       "playerName": "Caleb Williams",
       "teamId": 1,
       "points": 29.04
+    },
+    {
+      "playerId": 3918298,
+      "playerName": "Josh Allen",
+      "teamId": 4,
+      "points": 26.52
     },
     {
       "playerId": 4430878,
@@ -21,16 +27,16 @@
       "points": 26.1
     },
     {
-      "playerId": 3918298,
-      "playerName": "Josh Allen",
-      "teamId": 4,
-      "points": 26
-    },
-    {
       "playerId": 4429615,
       "playerName": "Zay Flowers",
       "teamId": 4,
       "points": 26
+    },
+    {
+      "playerId": 3043078,
+      "playerName": "Derrick Henry",
+      "teamId": 8,
+      "points": 24.5
     },
     {
       "playerId": 4429795,
@@ -42,25 +48,19 @@
       "playerId": 4430807,
       "playerName": "Bijan Robinson",
       "teamId": 10,
-      "points": 23
+      "points": 23.5
     },
     {
       "playerId": 3916387,
       "playerName": "Lamar Jackson",
       "teamId": 9,
-      "points": 21.56
+      "points": 21.92
     },
     {
-      "playerId": 3043078,
-      "playerName": "Derrick Henry",
-      "teamId": 8,
-      "points": 21.2
-    },
-    {
-      "playerId": 4361741,
-      "playerName": "Brock Purdy",
-      "teamId": 10,
-      "points": 21.1
+      "playerId": 4242335,
+      "playerName": "Jonathan Taylor",
+      "teamId": 6,
+      "points": 21.8
     }
   ]
 }
