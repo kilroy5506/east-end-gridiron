@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T20:28:03.148Z",
+  "fetchedAt": "2026-09-13T20:42:42.282Z",
   "week": 1,
   "leaders": [
     {
@@ -24,7 +24,7 @@
       "playerId": 4429795,
       "playerName": "Jahmyr Gibbs",
       "teamId": 7,
-      "points": 32.6
+      "points": 33.6
     },
     {
       "playerId": 4259545,
@@ -45,22 +45,22 @@
       "points": 28.9
     },
     {
+      "playerId": 4374302,
+      "playerName": "Amon-Ra St. Brown",
+      "teamId": 5,
+      "points": 28.7
+    },
+    {
+      "playerId": 4361370,
+      "playerName": "Chris Olave",
+      "teamId": 8,
+      "points": 28.2
+    },
+    {
       "playerId": 4430878,
       "playerName": "Jaxon Smith-Njigba",
       "teamId": 4,
       "points": 26.2
-    },
-    {
-      "playerId": 4360310,
-      "playerName": "Trevor Lawrence",
-      "teamId": 3,
-      "points": 26.1
-    },
-    {
-      "playerId": 4429615,
-      "playerName": "Zay Flowers",
-      "teamId": 4,
-      "points": 26
     }
   ]
 }
