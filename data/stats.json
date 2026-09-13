@@ -1,7 +1,13 @@
 {
-  "fetchedAt": "2026-09-13T18:31:58.002Z",
+  "fetchedAt": "2026-09-13T18:53:21.616Z",
   "week": 1,
   "leaders": [
+    {
+      "playerId": 4431611,
+      "playerName": "Caleb Williams",
+      "teamId": 1,
+      "points": 29.04
+    },
     {
       "playerId": 4430878,
       "playerName": "Jaxon Smith-Njigba",
@@ -13,6 +19,12 @@
       "playerName": "Zay Flowers",
       "teamId": 4,
       "points": 26
+    },
+    {
+      "playerId": 4360310,
+      "playerName": "Trevor Lawrence",
+      "teamId": 3,
+      "points": 25
     },
     {
       "playerId": 3918298,
@@ -27,40 +39,28 @@
       "points": 21.2
     },
     {
+      "playerId": 3916387,
+      "playerName": "Lamar Jackson",
+      "teamId": 9,
+      "points": 21.16
+    },
+    {
       "playerId": 4361741,
       "playerName": "Brock Purdy",
       "teamId": 10,
       "points": 21.1
     },
     {
+      "playerId": 4430807,
+      "playerName": "Bijan Robinson",
+      "teamId": 10,
+      "points": 21
+    },
+    {
       "playerId": 4432620,
       "playerName": "Parker Washington",
       "teamId": 5,
       "points": 19.3
-    },
-    {
-      "playerId": 4430807,
-      "playerName": "Bijan Robinson",
-      "teamId": 10,
-      "points": 19.3
-    },
-    {
-      "playerId": 4360310,
-      "playerName": "Trevor Lawrence",
-      "teamId": 3,
-      "points": 18.84
-    },
-    {
-      "playerId": 3916387,
-      "playerName": "Lamar Jackson",
-      "teamId": 9,
-      "points": 18.66
-    },
-    {
-      "playerId": 4035538,
-      "playerName": "David Montgomery",
-      "teamId": 9,
-      "points": 18.5
     }
   ]
 }
