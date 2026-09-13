@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T17:26:42.164Z",
+  "fetchedAt": "2026-09-13T17:40:31.218Z",
   "week": 1,
   "leaders": [
     {
@@ -27,10 +27,22 @@
       "points": 16.9
     },
     {
+      "playerId": 4432620,
+      "playerName": "Parker Washington",
+      "teamId": 5,
+      "points": 16.9
+    },
+    {
       "playerId": 4430737,
       "playerName": "Kyren Williams",
       "teamId": 3,
       "points": 15.5
+    },
+    {
+      "playerId": 4430807,
+      "playerName": "Bijan Robinson",
+      "teamId": 10,
+      "points": 14.8
     },
     {
       "playerId": 4569173,
@@ -45,22 +57,10 @@
       "points": 14
     },
     {
-      "playerId": 3117251,
-      "playerName": "Christian McCaffrey",
-      "teamId": 1,
-      "points": 13.8
-    },
-    {
-      "playerId": 4426515,
-      "playerName": "Puka Nacua",
-      "teamId": 8,
-      "points": 12.4
-    },
-    {
-      "playerId": 4432620,
-      "playerName": "Parker Washington",
-      "teamId": 5,
-      "points": 12.1
+      "playerId": -16030,
+      "playerName": "Jaguars D/ST",
+      "teamId": 9,
+      "points": 14
     }
   ]
 }
