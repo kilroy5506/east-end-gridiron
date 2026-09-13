@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T22:42:59.501Z",
+  "fetchedAt": "2026-09-13T22:55:03.641Z",
   "week": 1,
   "leaders": [
     {
@@ -33,16 +33,16 @@
       "points": 32.4
     },
     {
+      "playerId": 4890973,
+      "playerName": "Ashton Jeanty",
+      "teamId": 7,
+      "points": 32.3
+    },
+    {
       "playerId": 4430807,
       "playerName": "Bijan Robinson",
       "teamId": 10,
       "points": 31.3
-    },
-    {
-      "playerId": 4890973,
-      "playerName": "Ashton Jeanty",
-      "teamId": 7,
-      "points": 30.9
     },
     {
       "playerId": 4248528,
