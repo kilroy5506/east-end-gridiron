@@ -1,6 +1,66 @@
 {
-  "fetchedAt": "2026-09-13T03:55:48.446Z",
+  "fetchedAt": "2026-09-13T04:13:38.953Z",
   "transactions": [
+    {
+      "id": "4c2955f8-6b0c-4b9b-b521-9467e674a3e7",
+      "type": "FUTURE_ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789272724002,
+      "teamId": 9,
+      "items": [
+        {
+          "playerId": -16030,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": -16034,
+          "type": "LINEUP"
+        }
+      ]
+    },
+    {
+      "id": "07941861-7757-44f4-89c2-6e34f8e1bf05",
+      "type": "ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789272601576,
+      "teamId": 9,
+      "items": [
+        {
+          "playerId": 4701936,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 4595348,
+          "type": "LINEUP"
+        }
+      ]
+    },
+    {
+      "id": "baa03aeb-d499-4516-bdb2-d8577b4e624b",
+      "type": "FREEAGENT",
+      "status": "EXECUTED",
+      "proposedDate": 1789272524029,
+      "teamId": 9,
+      "items": [
+        {
+          "playerId": 3929645,
+          "type": "ADD"
+        }
+      ]
+    },
+    {
+      "id": "c254e737-af78-4026-af5d-8903a2b36b93",
+      "type": "ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789272248631,
+      "teamId": 9,
+      "items": [
+        {
+          "playerId": 4432665,
+          "type": "LINEUP"
+        }
+      ]
+    },
     {
       "id": "bfa16d0a-ab55-4642-884a-aaa0d9bdc9f6",
       "type": "ROSTER",
@@ -375,58 +435,6 @@
       "items": [
         {
           "playerId": 4047650,
-          "type": "DRAFT"
-        }
-      ]
-    },
-    {
-      "id": "fdbcec51-98b3-4f97-84c7-0a6355291424",
-      "type": "DRAFT",
-      "status": "EXECUTED",
-      "proposedDate": 1788489778192,
-      "teamId": 7,
-      "items": [
-        {
-          "playerId": 3917792,
-          "type": "DRAFT"
-        }
-      ]
-    },
-    {
-      "id": "5fbc11e9-330c-4c23-9a57-4c41ad1b64f9",
-      "type": "DRAFT",
-      "status": "EXECUTED",
-      "proposedDate": 1788489778192,
-      "teamId": 8,
-      "items": [
-        {
-          "playerId": 4431452,
-          "type": "DRAFT"
-        }
-      ]
-    },
-    {
-      "id": "e3576ca8-d0de-4339-90fa-4d34e2718601",
-      "type": "DRAFT",
-      "status": "EXECUTED",
-      "proposedDate": 1788489778192,
-      "teamId": 8,
-      "items": [
-        {
-          "playerId": 4870808,
-          "type": "DRAFT"
-        }
-      ]
-    },
-    {
-      "id": "58c9e957-b04c-4b5f-9713-faa999d35a45",
-      "type": "DRAFT",
-      "status": "EXECUTED",
-      "proposedDate": 1788489778192,
-      "teamId": 10,
-      "items": [
-        {
-          "playerId": 4360569,
           "type": "DRAFT"
         }
       ]
