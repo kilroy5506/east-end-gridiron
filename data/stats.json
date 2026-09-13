@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T22:11:46.710Z",
+  "fetchedAt": "2026-09-13T22:27:41.340Z",
   "week": 1,
   "leaders": [
     {
@@ -45,6 +45,12 @@
       "points": 30.1
     },
     {
+      "playerId": 4890973,
+      "playerName": "Ashton Jeanty",
+      "teamId": 7,
+      "points": 29.5
+    },
+    {
       "playerId": 4035538,
       "playerName": "David Montgomery",
       "teamId": 9,
@@ -55,12 +61,6 @@
       "playerName": "Amon-Ra St. Brown",
       "teamId": 5,
       "points": 28.7
-    },
-    {
-      "playerId": 4361370,
-      "playerName": "Chris Olave",
-      "teamId": 8,
-      "points": 28.2
     }
   ]
 }
