@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-13T23:39:08.242Z",
+  "fetchedAt": "2026-09-13T23:51:34.720Z",
   "week": 1,
   "matchups": [
     {
@@ -7,7 +7,7 @@
       "matchupPeriodId": 1,
       "home": {
         "teamId": 9,
-        "totalPoints": 124.36
+        "totalPoints": 126.16
       },
       "away": {
         "teamId": 6,
