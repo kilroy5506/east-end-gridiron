@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { newsPosts } from "@/content/news";
+import { getAllNewsPosts } from "@/lib/news";
 import { formatDate } from "@/lib/format";
 
 export default function NewsPage() {
+  const newsPosts = getAllNewsPosts();
   return (
     <div className="flex flex-col gap-10">
       <section>
