@@ -16,7 +16,20 @@ export interface EspnTeam {
   location: string;
   nickname: string;
   logo?: string;
+  // Real head-to-head result only — this team's actual weekly matchup
+  // outcomes, derived from the schedule (see fetch-espn-data.mjs). This is
+  // what every other page (Power Rankings, Stats Book, Stat Leaders) means
+  // by "record".
   record: EspnRecord;
+  // ESPN's own overall win/loss/tie total straight off the league API —
+  // includes the league's "bonus win/loss" setting (an extra win for
+  // beating, or loss for missing, the weekly league-wide average score) on
+  // top of the real head-to-head result above. Optional/undefined only for
+  // a `league.json` written before this field existed (fills in on the next
+  // sync). Home page standings shows this as "Overall" and derives a
+  // "Bonus" line as overallRecord minus record — see lib/data.ts's
+  // bonusRecord().
+  overallRecord?: { wins: number; losses: number; ties: number };
   owners?: string[];
   rank?: number;
 }
