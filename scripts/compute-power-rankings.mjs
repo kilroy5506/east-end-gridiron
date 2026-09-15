@@ -50,7 +50,13 @@
 // and rank *for that single week* (not cumulative) — this is what powers
 // the per-category week-by-week drill-down pages on the site, both for
 // spotting trends and for spot-checking that a given week computed
-// correctly.
+// correctly. Each week's `record` entries also carry `margin` (that team's
+// own score minus their opponent's — positive on a win, negative on a
+// loss) and `opponentTeamId`, and there's now a weekly `optimalPoints`
+// array (mirroring `pointsScored`, but for the optimal lineup) — none of
+// that feeds the Power Score, it's raw material the site's Stats Book page
+// (/stats-book) aggregates into season records: biggest blowout, closest
+// win, best/worst single week, longest streaks, and so on.
 //
 // This is intentionally self-contained (its own ESPN fetch helper, not
 // shared with fetch-espn-data.mjs) so it can be read and reasoned about on
@@ -362,7 +368,10 @@ async function main() {
     const weekMatchups = (sbRaw.schedule ?? []).filter((m) => m.matchupPeriodId === week);
 
     const weekResult = new Map(
-      teamIds.map((id) => [id, { wins: 0, losses: 0, ties: 0 }])
+      teamIds.map((id) => [
+        id,
+        { wins: 0, losses: 0, ties: 0, margin: 0, opponentTeamId: null },
+      ])
     );
     for (const m of weekMatchups) {
       const homeId = m.home?.teamId;
@@ -377,6 +386,18 @@ async function main() {
       if (!home || !away) continue;
       opponentsByTeam.get(homeId)?.push(awayId);
       opponentsByTeam.get(awayId)?.push(homeId);
+      // Each side's own signed margin (their score minus the opponent's) —
+      // positive on a win, negative on a loss, 0 on a tie. Powers the Stats
+      // Book's margin-of-victory/defeat records; opponentTeamId lets those
+      // records name who the game was against.
+      if (homeWeek) {
+        homeWeek.opponentTeamId = awayId;
+        homeWeek.margin = Math.round((homeScore - awayScore) * 100) / 100;
+      }
+      if (awayWeek) {
+        awayWeek.opponentTeamId = homeId;
+        awayWeek.margin = Math.round((awayScore - homeScore) * 100) / 100;
+      }
       if (homeScore > awayScore) {
         home.wins++;
         away.losses++;
@@ -445,17 +466,31 @@ async function main() {
     const weekBreakdownRanks = rankDescending(teamIds, (id) => weekBreakdown.get(id) ?? 0);
     const weekCoachRatingRanks = rankDescending(teamIds, (id) => weekCoachPct.get(id) ?? 0);
     const weekOptimalBreakdownRanks = rankDescending(teamIds, (id) => weekOptimalBreakdown.get(id) ?? 0);
+    const weekOptimalPointsRanks = rankDescending(teamIds, (id) => optimalScores.get(id) ?? 0);
 
     weeklyHistory.push({
       week,
       record: teamIds.map((id) => {
         const r = weekResult.get(id);
-        return { teamId: id, wins: r.wins, losses: r.losses, ties: r.ties, rank: weekRecordRanks.get(id) };
+        return {
+          teamId: id,
+          wins: r.wins,
+          losses: r.losses,
+          ties: r.ties,
+          margin: r.margin,
+          opponentTeamId: r.opponentTeamId,
+          rank: weekRecordRanks.get(id),
+        };
       }),
       pointsScored: teamIds.map((id) => ({
         teamId: id,
         value: actualScores.get(id) ?? 0,
         rank: weekPointsRanks.get(id),
+      })),
+      optimalPoints: teamIds.map((id) => ({
+        teamId: id,
+        value: optimalScores.get(id) ?? 0,
+        rank: weekOptimalPointsRanks.get(id),
       })),
       breakdown: teamIds.map((id) => ({
         teamId: id,
