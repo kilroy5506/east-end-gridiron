@@ -170,6 +170,11 @@ export interface PowerRankingWeeklyRecordEntry {
   wins: number;
   losses: number;
   ties: number;
+  // This team's own score minus their opponent's that week — positive on a
+  // win, negative on a loss, 0 on a tie or a bye. Powers the Stats Book's
+  // margin-of-victory/defeat records.
+  margin: number;
+  opponentTeamId: number | null; // null on a bye week
   rank: number;
 }
 
@@ -195,6 +200,10 @@ export interface PowerRankingWeek {
   week: number;
   record: PowerRankingWeeklyRecordEntry[];
   pointsScored: PowerRankingWeeklyValueEntry[];
+  // Same shape as pointsScored, but each team's OPTIMAL lineup score that
+  // week (what they'd have scored with perfect start/sit) rather than what
+  // they actually started. Feeds the Stats Book's "potential" records.
+  optimalPoints: PowerRankingWeeklyValueEntry[];
   breakdown: PowerRankingWeeklyWinsEntry[];
   coachRating: PowerRankingWeeklyCoachEntry[];
   optimalBreakdown: PowerRankingWeeklyWinsEntry[];
