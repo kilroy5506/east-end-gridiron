@@ -1,54 +1,54 @@
 {
-  "fetchedAt": "2026-09-15T05:05:23.258Z",
+  "fetchedAt": "2026-09-15T13:11:22.587Z",
   "leagueName": "East End Gridiron Championship",
   "size": 10,
-  "currentWeek": 1,
+  "currentWeek": 2,
   "seasonId": "2026",
   "scoringFormat": "PPR",
   "pointsPerReception": 1,
   "teams": [
     {
-      "id": 1,
-      "abbrev": "JCS",
+      "id": 10,
+      "abbrev": "JSB",
       "record": {
-        "wins": 0,
+        "wins": 2,
         "losses": 0,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 166.2,
+        "pointsAgainst": 157.66
       },
       "owners": [
-        "Michael Farris"
+        "John Bregger"
       ],
       "rank": 1
     },
     {
-      "id": 2,
-      "abbrev": "CLE",
+      "id": 1,
+      "abbrev": "JCS",
       "record": {
-        "wins": 0,
+        "wins": 2,
         "losses": 0,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 157.56,
+        "pointsAgainst": 109.72
       },
       "owners": [
-        "Nick Yacovazzi"
+        "Michael Farris"
       ],
       "rank": 2
     },
     {
-      "id": 3,
-      "abbrev": "MCM",
+      "id": 8,
+      "abbrev": "WWW",
       "record": {
-        "wins": 0,
+        "wins": 2,
         "losses": 0,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 135.22,
+        "pointsAgainst": 135.1
       },
       "owners": [
-        "Jeff McCormick"
+        "Will Hadley"
       ],
       "rank": 3
     },
@@ -56,11 +56,11 @@
       "id": 4,
       "abbrev": "CWTS",
       "record": {
-        "wins": 0,
-        "losses": 0,
+        "wins": 1,
+        "losses": 1,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 157.66,
+        "pointsAgainst": 166.2
       },
       "owners": [
         "Jonathan Avery"
@@ -71,11 +71,11 @@
       "id": 5,
       "abbrev": "WSTL",
       "record": {
-        "wins": 0,
-        "losses": 0,
+        "wins": 1,
+        "losses": 1,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 135.1,
+        "pointsAgainst": 135.22
       },
       "owners": [
         "Brandon Baxter"
@@ -83,17 +83,17 @@
       "rank": 5
     },
     {
-      "id": 6,
-      "abbrev": "GHJ",
+      "id": 9,
+      "abbrev": "LLUA",
       "record": {
-        "wins": 0,
-        "losses": 0,
+        "wins": 1,
+        "losses": 1,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 128.16,
+        "pointsAgainst": 97.86
       },
       "owners": [
-        "Daniel Foster"
+        "Shep Shepherd"
       ],
       "rank": 6
     },
@@ -101,11 +101,11 @@
       "id": 7,
       "abbrev": "JWS",
       "record": {
-        "wins": 0,
-        "losses": 0,
+        "wins": 1,
+        "losses": 1,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 126.96,
+        "pointsAgainst": 75.66
       },
       "owners": [
         "jacob reedy"
@@ -113,47 +113,47 @@
       "rank": 7
     },
     {
-      "id": 8,
-      "abbrev": "WWW",
+      "id": 2,
+      "abbrev": "CLE",
       "record": {
         "wins": 0,
-        "losses": 0,
+        "losses": 2,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 109.72,
+        "pointsAgainst": 157.56
       },
       "owners": [
-        "Will Hadley"
+        "Nick Yacovazzi"
       ],
       "rank": 8
     },
     {
-      "id": 9,
-      "abbrev": "LLUA",
+      "id": 6,
+      "abbrev": "GHJ",
       "record": {
         "wins": 0,
-        "losses": 0,
+        "losses": 2,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 97.86,
+        "pointsAgainst": 128.16
       },
       "owners": [
-        "Shep Shepherd"
+        "Daniel Foster"
       ],
       "rank": 9
     },
     {
-      "id": 10,
-      "abbrev": "JSB",
+      "id": 3,
+      "abbrev": "MCM",
       "record": {
         "wins": 0,
-        "losses": 0,
+        "losses": 2,
         "ties": 0,
-        "pointsFor": 0,
-        "pointsAgainst": 0
+        "pointsFor": 75.66,
+        "pointsAgainst": 126.96
       },
       "owners": [
-        "John Bregger"
+        "Jeff McCormick"
       ],
       "rank": 10
     }
