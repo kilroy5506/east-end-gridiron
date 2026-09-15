@@ -1,0 +1,46 @@
+name: Compute power rankings
+
+on:
+  schedule:
+    # Two entries, both aimed at "2am Central every Tuesday" — GitHub
+    # Actions cron is fixed UTC and doesn't shift for daylight saving, so we
+    # cover both possible UTC offsets (7am UTC = 2am CDT, 8am UTC = 2am CST)
+    # and the script itself checks the real Central time and skips the one
+    # that isn't actually 2am CT that week. No manual adjustment needed
+    # across the fall-back in November.
+    - cron: "0 7 * * 2"
+    - cron: "0 8 * * 2"
+  workflow_dispatch: {} # lets you trigger a run right now from the Actions tab
+
+permissions:
+  contents: write # needed to commit the updated data/power-rankings.json
+
+jobs:
+  compute:
+    runs-on: ubuntu-latest
+    env:
+      # Not secrets — the league is publicly viewable, so these are just
+      # plain IDs, not credentials. Change the season here each year.
+      ESPN_LEAGUE_ID: "1040047778"
+      ESPN_SEASON_ID: "2026"
+      # Tells the script whether this is a scheduled run (which self-checks
+      # the actual Central time before doing anything) or a manual run from
+      # the Actions tab (which always runs).
+      TRIGGER_EVENT: ${{ github.event_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Compute power rankings
+        run: node scripts/compute-power-rankings.mjs
+
+      - name: Commit updated data (if anything changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/power-rankings.json
+          git diff --staged --quiet || git commit -m "Update power rankings"
+          git push
