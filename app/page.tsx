@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { getLeagueSnapshot, getPowerRankings, getScoreboard, ownerNames, teamName } from "@/lib/data";
+import {
+  bonusRecord,
+  getLeagueSnapshot,
+  getPowerRankings,
+  getScoreboard,
+  ownerNames,
+  teamName,
+} from "@/lib/data";
 import { formatPoints, formatRecord } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 import { getAllNewsPosts } from "@/lib/news";
@@ -70,6 +77,8 @@ export default function Home() {
               <tbody>
                 {snapshot.teams.map((team) => {
                   const pr = rankingsByTeamId.get(team.id);
+                  const overall = team.overallRecord ?? team.record;
+                  const bonus = bonusRecord(team);
                   return (
                     <tr key={team.id} className="border-b border-border last:border-0">
                       <td className="py-2.5 pl-4 pr-2 text-muted font-mono-num">{team.rank}</td>
@@ -79,8 +88,15 @@ export default function Home() {
                           <div className="text-xs text-muted">{ownerNames(team)}</div>
                         )}
                       </td>
-                      <td className="py-2.5 px-2 text-right font-mono-num text-muted">
-                        {formatRecord(team.record.wins, team.record.losses, team.record.ties)}
+                      <td className="py-2.5 px-2 text-right font-mono-num whitespace-nowrap">
+                        <div className="text-muted">
+                          {formatRecord(overall.wins, overall.losses, overall.ties)}
+                        </div>
+                        <div className="text-xs text-muted">
+                          {bonus
+                            ? `H2H ${formatRecord(team.record.wins, team.record.losses, team.record.ties)} · Bonus ${formatRecord(bonus.wins, bonus.losses, bonus.ties)}`
+                            : "—"}
+                        </div>
                       </td>
                       <td className="py-2.5 px-2 text-right font-mono-num">
                         {formatPoints(team.record.pointsFor)}
@@ -118,6 +134,11 @@ export default function Home() {
               </tbody>
             </table>
           </div>
+          <p className="text-xs text-muted mt-2">
+            Record is the league&rsquo;s official overall record (real head-to-head result plus
+            this league&rsquo;s bonus win/loss for beating or missing the weekly average score);
+            the line underneath breaks it into the two parts.
+          </p>
           {!hasRankingsData && (
             <p className="text-xs text-muted mt-2">
               Breakdown, Power Ranking, Optimal Lineup Pts, and SOS fill in once the first
