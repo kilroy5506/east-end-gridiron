@@ -48,9 +48,29 @@ function mapTeam(raw, membersById, computedRecord) {
     abbrev: raw.abbrev,
     location: raw.location,
     nickname: raw.nickname,
-    // Our own record, not ESPN's raw `record.overall` — see
-    // deriveSeasonRecords() for why.
+    // Our own record — the real head-to-head result only — not ESPN's raw
+    // `record.overall`, which also folds in this league's "bonus win/loss"
+    // setting (an extra win for beating, or loss for missing, that week's
+    // league-wide average score — confirmed 2026-09-15 by Michael checking
+    // his own league settings). See deriveSeasonRecords() below.
     record: computedRecord ?? { wins: 0, losses: 0, ties: 0, pointsFor: 0, pointsAgainst: 0 },
+    // ESPN's own overall win/loss/tie total, straight off the API —
+    // real result + bonus result combined. Kept alongside `record` (not
+    // instead of it) so the site can show both: the home page derives the
+    // bonus-only component as the difference between the two (see
+    // lib/data.ts's bonusRecord()) rather than us trying to recompute
+    // ESPN's bonus rule (weekly average vs. median, rounding, etc.)
+    // ourselves. Only wins/losses/ties are kept — pointsFor/pointsAgainst
+    // on `record` above are already the real season totals and bonus
+    // wins/losses don't add points, so there's nothing to gain from
+    // ESPN's copy of those two fields.
+    overallRecord: raw.record?.overall
+      ? {
+          wins: raw.record.overall.wins ?? 0,
+          losses: raw.record.overall.losses ?? 0,
+          ties: raw.record.overall.ties ?? 0,
+        }
+      : undefined,
     // Full owner name(s), e.g. ["Michael Farris"] — from ESPN's league
     // "members" list, matched by the team's owners (member id) array.
     // Falls back to an empty array if ESPN didn't include member info for
@@ -186,9 +206,15 @@ async function main() {
   const teams = (leagueRaw.teams ?? []).map((t) =>
     mapTeam(t, membersById, seasonRecords.get(t.id))
   );
-  teams.sort(
-    (a, b) => b.record.wins - a.record.wins || b.record.pointsFor - a.record.pointsFor
-  );
+  // Standings order matches ESPN's own (overall wins, including this
+  // league's bonus win/loss setting — the real basis for playoff seeding),
+  // not just the head-to-head record — falls back to the head-to-head
+  // record if overallRecord somehow isn't present.
+  teams.sort((a, b) => {
+    const aWins = a.overallRecord?.wins ?? a.record.wins;
+    const bWins = b.overallRecord?.wins ?? b.record.wins;
+    return bWins - aWins || b.record.pointsFor - a.record.pointsFor;
+  });
   teams.forEach((t, i) => (t.rank = i + 1));
 
   // Reception scoring value (statId 53, falling back to 41 — ESPN's two
