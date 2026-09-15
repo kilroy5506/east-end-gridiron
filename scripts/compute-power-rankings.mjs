@@ -30,6 +30,21 @@
 // Rank 1 is best in every category (standard competition ranking — ties
 // share the better rank, e.g. 1, 2, 2, 4). Higher Power Score is better.
 //
+// Two more stats are computed alongside the five above, for display on the
+// home page standings table — neither one feeds into the Power Score:
+//
+//   - Optimal Points        — total OPTIMAL lineup points all season (what
+//                              a team would have scored with perfect
+//                              start/sit decisions every week), as opposed
+//                              to Points Scored above, which is what they
+//                              actually started.
+//   - Strength of Schedule  — each team's actual opponents' CURRENT Power
+//                              Scores, averaged. A high average means a
+//                              team has spent the season playing
+//                              consistently strong opponents (by their
+//                              final standing) — rank 1 is the toughest
+//                              schedule.
+//
 // Alongside the season-to-date totals above, this also writes a
 // `weeklyHistory` array: for every played week, each category's raw value
 // and rank *for that single week* (not cumulative) — this is what powers
@@ -274,9 +289,24 @@ async function main() {
   const totals = new Map(
     teamIds.map((id) => [
       id,
-      { wins: 0, losses: 0, ties: 0, pointsScored: 0, breakdownWins: 0, optimalBreakdownWins: 0, coachRatingSum: 0, weeksCounted: 0 },
+      {
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        pointsScored: 0,
+        optimalPointsScored: 0,
+        breakdownWins: 0,
+        optimalBreakdownWins: 0,
+        coachRatingSum: 0,
+        weeksCounted: 0,
+      },
     ])
   );
+
+  // Every real opponent a team has faced this season, one entry per week
+  // played — used to compute Strength of Schedule after everyone's final
+  // Power Score is known.
+  const opponentsByTeam = new Map(teamIds.map((id) => [id, []]));
 
   // Per-week snapshots (not cumulative) — one entry per played week, each
   // holding every team's raw value + rank in each of the five categories
@@ -345,6 +375,8 @@ async function main() {
       const homeWeek = weekResult.get(homeId);
       const awayWeek = weekResult.get(awayId);
       if (!home || !away) continue;
+      opponentsByTeam.get(homeId)?.push(awayId);
+      opponentsByTeam.get(awayId)?.push(homeId);
       if (homeScore > awayScore) {
         home.wins++;
         away.losses++;
@@ -375,6 +407,7 @@ async function main() {
       const actual = actualScores.get(teamId) ?? 0;
       const optimal = optimalScores.get(teamId) ?? 0;
       t.pointsScored += actual;
+      t.optimalPointsScored += optimal;
 
       let breakdownWins = 0;
       let optimalBreakdownWins = 0;
@@ -489,6 +522,25 @@ async function main() {
   );
   const powerRanks = rankDescending(teamIds, (id) => powerScores.get(id));
 
+  // --- Two more display-only stats (not part of Power Score) --------------
+  const optimalPointsRanks = rankDescending(teamIds, (id) => totals.get(id).optimalPointsScored);
+
+  // Strength of Schedule: each team's real opponents' CURRENT Power Scores,
+  // averaged. Needs powerScores (just above) to already be final, since
+  // this looks up each opponent's finished season score, not a
+  // week-by-week historical one (Power Score is a season-cumulative
+  // concept — there's no meaningful "Power Score as of week 3" to use
+  // instead). Rank 1 = toughest schedule (highest average opponent score).
+  const sosValues = new Map(
+    teamIds.map((id) => {
+      const opponents = opponentsByTeam.get(id) ?? [];
+      if (opponents.length === 0) return [id, 0];
+      const total = opponents.reduce((sum, oppId) => sum + (powerScores.get(oppId) ?? 0), 0);
+      return [id, Math.round((total / opponents.length) * 100) / 100];
+    })
+  );
+  const sosRanks = rankDescending(teamIds, (id) => sosValues.get(id));
+
   const teams = teamIds.map((id) => {
     const t = totals.get(id);
     return {
@@ -503,6 +555,14 @@ async function main() {
       optimalBreakdown: { wins: t.optimalBreakdownWins, rank: optimalBreakdownRanks.get(id) },
       powerScore: powerScores.get(id),
       powerRank: powerRanks.get(id),
+      optimalPoints: {
+        value: Math.round(t.optimalPointsScored * 100) / 100,
+        rank: optimalPointsRanks.get(id),
+      },
+      strengthOfSchedule: {
+        value: sosValues.get(id),
+        rank: sosRanks.get(id),
+      },
     };
   });
   teams.sort((a, b) => a.powerRank - b.powerRank);
