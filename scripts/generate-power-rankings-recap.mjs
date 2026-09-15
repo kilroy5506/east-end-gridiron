@@ -10,7 +10,12 @@
 //     compute step overwrote it. Used only for week-over-week movement
 //     (rank/Power Score changes) — nothing else here depends on it, so a
 //     missing/empty snapshot (the very first run ever) just means the
-//     recap skips the "Movers" section instead of failing.
+//     recap skips the "Movers" section instead of failing. Only trusted
+//     when it's genuinely from an EARLIER week (prev.throughWeek < this
+//     week) — a same-week snapshot (e.g. from re-running the workflow
+//     twice in one week while testing) is ignored, so Week 1 can never
+//     show bogus "movement" against itself. (Fixed 2026-09-15 after
+//     exactly that happened to the real Week 1 recap.)
 //   - data/league.json — team/owner names.
 //   - data/power-rankings-recaps.json — the running list of past
 //     auto-generated recaps, so re-running this for a week that's already
@@ -74,7 +79,14 @@ async function main() {
   const label = (teamId) => teamLabel(teamsById.get(teamId));
 
   const prev = await readJsonSafe(PREVIOUS_SNAPSHOT_PATH, null);
-  const hasPrev = !!(prev && Array.isArray(prev.teams) && prev.teams.length > 0 && prev.throughWeek > 0);
+  const hasPrev = !!(
+    prev &&
+    Array.isArray(prev.teams) &&
+    prev.teams.length > 0 &&
+    typeof prev.throughWeek === "number" &&
+    prev.throughWeek > 0 &&
+    prev.throughWeek < week // must be a genuinely earlier week, not a same-week retest
+  );
   const prevByTeamId = hasPrev ? new Map(prev.teams.map((t) => [t.teamId, t])) : new Map();
 
   const sortedByRank = [...curr.teams].sort((a, b) => a.powerRank - b.powerRank);
