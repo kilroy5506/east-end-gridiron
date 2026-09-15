@@ -72,3 +72,24 @@ export function getPowerRankings(): PowerRankingsData {
 export function ownerNames(team: EspnTeam): string {
   return team.owners && team.owners.length > 0 ? team.owners.join(" & ") : "";
 }
+
+/** The league's "bonus win/loss" component alone (an extra win for beating,
+ *  or loss for missing, the weekly league-wide average score) — derived as
+ *  ESPN's overall record minus this team's real head-to-head record, rather
+ *  than recomputed from scratch, so it always matches ESPN's own total
+ *  exactly without us having to replicate ESPN's exact averaging rule
+ *  (mean vs. median, rounding, etc.). Returns null until `overallRecord`
+ *  has synced (see EspnTeam in lib/types.ts). Clamped at 0 as a defensive
+ *  floor — the two record halves come from the same API response, so a
+ *  negative bonus count would only mean something is actually wrong, not a
+ *  real result. */
+export function bonusRecord(
+  team: EspnTeam
+): { wins: number; losses: number; ties: number } | null {
+  if (!team.overallRecord) return null;
+  return {
+    wins: Math.max(0, team.overallRecord.wins - team.record.wins),
+    losses: Math.max(0, team.overallRecord.losses - team.record.losses),
+    ties: Math.max(0, team.overallRecord.ties - team.record.ties),
+  };
+}
