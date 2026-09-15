@@ -13,10 +13,12 @@ import scoreboardDataRaw from "@/data/scoreboard.json";
 import transactionsDataRaw from "@/data/transactions.json";
 import statsDataRaw from "@/data/stats.json";
 import draftDataRaw from "@/data/draft.json";
+import powerRankingsDataRaw from "@/data/power-rankings.json";
 import type {
   DraftData,
   EspnTeam,
   LeagueData,
+  PowerRankingsData,
   ScoreboardData,
   StatsData,
   TransactionsData,
@@ -29,10 +31,16 @@ const scoreboardData = scoreboardDataRaw as ScoreboardData;
 const transactionsData = transactionsDataRaw as TransactionsData;
 const statsData = statsDataRaw as StatsData;
 const draftData = draftDataRaw as DraftData;
+const powerRankingsData = powerRankingsDataRaw as PowerRankingsData;
 
 export function teamName(team: EspnTeam): string {
   const name = `${team.location ?? ""} ${team.nickname ?? ""}`.trim();
-  return name || team.abbrev || `Team ${team.id}`;
+  if (name) return name;
+  // Some teams never get a custom name set in ESPN and don't return
+  // location/nickname at all — the owner's real name is a much more
+  // useful fallback than a cryptic 2-4 letter abbreviation.
+  const owners = ownerNames(team);
+  return owners || team.abbrev || `Team ${team.id}`;
 }
 
 export function getLeagueSnapshot(): LeagueData {
@@ -53,6 +61,10 @@ export function getStatsData(): StatsData {
 
 export function getDraftData(): DraftData {
   return draftData;
+}
+
+export function getPowerRankings(): PowerRankingsData {
+  return powerRankingsData;
 }
 
 /** Full name(s) of a team's owner(s), or a graceful fallback if ESPN didn't
