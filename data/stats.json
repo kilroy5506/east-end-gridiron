@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T02:34:07.842Z",
+  "fetchedAt": "2026-09-15T05:05:23.258Z",
   "week": 1,
   "leaders": [
     {
@@ -19,6 +19,12 @@
       "playerName": "Derrick Henry",
       "teamId": 8,
       "points": 35.3
+    },
+    {
+      "playerId": 4567048,
+      "playerName": "Kenneth Walker III",
+      "teamId": 10,
+      "points": 34.1
     },
     {
       "playerId": 4429795,
@@ -55,12 +61,6 @@
       "playerName": "Justin Jefferson",
       "teamId": 1,
       "points": 31.2
-    },
-    {
-      "playerId": 4035538,
-      "playerName": "David Montgomery",
-      "teamId": 9,
-      "points": 28.9
     }
   ]
 }

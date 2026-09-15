@@ -1,6 +1,23 @@
 {
-  "fetchedAt": "2026-09-15T02:34:07.842Z",
+  "fetchedAt": "2026-09-15T05:05:23.258Z",
   "transactions": [
+    {
+      "id": "ce02019d-fc0e-4208-89e7-fbda8d8e2878",
+      "type": "FUTURE_ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789445834559,
+      "teamId": 9,
+      "items": [
+        {
+          "playerId": 4595348,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 4239993,
+          "type": "LINEUP"
+        }
+      ]
+    },
     {
       "id": "194310e8-212c-4155-b858-293ce95fdcfe",
       "type": "FUTURE_ROSTER",
@@ -430,19 +447,6 @@
       "items": [
         {
           "playerId": 3121023,
-          "type": "DRAFT"
-        }
-      ]
-    },
-    {
-      "id": "64166835-660d-4c47-98ba-4b94e3f56f2d",
-      "type": "DRAFT",
-      "status": "EXECUTED",
-      "proposedDate": 1788489778192,
-      "teamId": 3,
-      "items": [
-        {
-          "playerId": 4431299,
           "type": "DRAFT"
         }
       ]
