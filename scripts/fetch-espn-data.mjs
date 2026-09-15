@@ -42,19 +42,15 @@ async function espnFetch(params) {
   return JSON.parse(text);
 }
 
-function mapTeam(raw, membersById) {
+function mapTeam(raw, membersById, computedRecord) {
   return {
     id: raw.id,
     abbrev: raw.abbrev,
     location: raw.location,
     nickname: raw.nickname,
-    record: {
-      wins: raw.record?.overall?.wins ?? 0,
-      losses: raw.record?.overall?.losses ?? 0,
-      ties: raw.record?.overall?.ties ?? 0,
-      pointsFor: raw.record?.overall?.pointsFor ?? 0,
-      pointsAgainst: raw.record?.overall?.pointsAgainst ?? 0,
-    },
+    // Our own record, not ESPN's raw `record.overall` — see
+    // deriveSeasonRecords() for why.
+    record: computedRecord ?? { wins: 0, losses: 0, ties: 0, pointsFor: 0, pointsAgainst: 0 },
     // Full owner name(s), e.g. ["Michael Farris"] — from ESPN's league
     // "members" list, matched by the team's owners (member id) array.
     // Falls back to an empty array if ESPN didn't include member info for
@@ -63,6 +59,62 @@ function mapTeam(raw, membersById) {
       .map((memberId) => membersById.get(memberId))
       .filter((name) => Boolean(name)),
   };
+}
+
+// Rebuilds each team's season Wins/Losses/Ties/PF/PA ourselves from the real
+// matchup schedule, INSTEAD of trusting ESPN's own per-team
+// `record.overall` aggregate. We found that field can already count the
+// current (not-yet-played) week as decided — observed 2026-09-15: fetched
+// right at the Tuesday rollover to Week 2, before a single Week 2 snap had
+// been played, every team's ESPN-reported record.overall was already one
+// win/loss ahead of their real Week 1 result (a 1-0 team showing as 2-0,
+// pointsFor unchanged from Week 1 the whole time — the "extra" result
+// carried zero points, just a phantom win or loss). Deriving the record
+// ourselves from `schedule`, restricted to matchupPeriodId < currentWeek
+// (i.e. only weeks that are actually behind us), can never pick up a
+// not-yet-played current week no matter what ESPN's own aggregate says.
+// `schedule` here is expected to already hold entries for every
+// matchupPeriodId in the season (ESPN returns the whole thing regardless of
+// the scoringPeriodId query param — the per-week filtering happens on our
+// side, same as compute-power-rankings.mjs already does for its own
+// week-by-week walk).
+function deriveSeasonRecords(schedule, currentWeek) {
+  const records = new Map();
+  const get = (teamId) => {
+    if (!records.has(teamId)) {
+      records.set(teamId, { wins: 0, losses: 0, ties: 0, pointsFor: 0, pointsAgainst: 0 });
+    }
+    return records.get(teamId);
+  };
+  for (const m of schedule ?? []) {
+    if (m.matchupPeriodId >= currentWeek) continue; // not actually decided yet
+    const homeId = m.home?.teamId;
+    const awayId = m.away?.teamId;
+    if (homeId == null || awayId == null) continue; // bye week
+    const homeScore = m.home?.totalPoints ?? 0;
+    const awayScore = m.away?.totalPoints ?? 0;
+    const home = get(homeId);
+    const away = get(awayId);
+    home.pointsFor += homeScore;
+    home.pointsAgainst += awayScore;
+    away.pointsFor += awayScore;
+    away.pointsAgainst += homeScore;
+    if (homeScore > awayScore) {
+      home.wins++;
+      away.losses++;
+    } else if (awayScore > homeScore) {
+      away.wins++;
+      home.losses++;
+    } else {
+      home.ties++;
+      away.ties++;
+    }
+  }
+  for (const r of records.values()) {
+    r.pointsFor = Math.round(r.pointsFor * 100) / 100;
+    r.pointsAgainst = Math.round(r.pointsAgainst * 100) / 100;
+  }
+  return records;
 }
 
 function buildMembersById(leagueRaw) {
@@ -117,14 +169,27 @@ async function main() {
   leagueParams.append("view", "mSettings");
   const leagueRaw = await espnFetch(leagueParams);
 
+  const currentWeek = leagueRaw.status?.currentMatchupPeriod ?? leagueRaw.scoringPeriodId ?? 1;
+
+  // Full-season matchup schedule — fetched once here (before building
+  // `teams`, since their record now comes from this) and reused below for
+  // "this week's matchups" too, instead of fetching it a second time.
+  const sbParams = new URLSearchParams();
+  sbParams.append("view", "mMatchupScore");
+  sbParams.append("view", "mScoreboard");
+  sbParams.append("scoringPeriodId", String(currentWeek));
+  const sbRaw = await espnFetch(sbParams);
+
+  const seasonRecords = deriveSeasonRecords(sbRaw.schedule, currentWeek);
+
   const membersById = buildMembersById(leagueRaw);
-  const teams = (leagueRaw.teams ?? []).map((t) => mapTeam(t, membersById));
+  const teams = (leagueRaw.teams ?? []).map((t) =>
+    mapTeam(t, membersById, seasonRecords.get(t.id))
+  );
   teams.sort(
     (a, b) => b.record.wins - a.record.wins || b.record.pointsFor - a.record.pointsFor
   );
   teams.forEach((t, i) => (t.rank = i + 1));
-
-  const currentWeek = leagueRaw.status?.currentMatchupPeriod ?? leagueRaw.scoringPeriodId ?? 1;
 
   // Reception scoring value (statId 53, falling back to 41 — ESPN's two
   // "receptions" stat ids) tells us PPR / Half-PPR / Standard automatically,
@@ -204,11 +269,8 @@ async function main() {
   console.log(`stats.json: ${leaders.length} rostered players considered`);
 
   // --- This week's matchups -------------------------------------------
-  const sbParams = new URLSearchParams();
-  sbParams.append("view", "mMatchupScore");
-  sbParams.append("view", "mScoreboard");
-  sbParams.append("scoringPeriodId", String(currentWeek));
-  const sbRaw = await espnFetch(sbParams);
+  // Reuses the same `sbRaw` fetched above for the season-record derivation
+  // — same view/params, no need to fetch it twice.
 
   const matchups = (sbRaw.schedule ?? [])
     .filter((m) => m.matchupPeriodId === currentWeek)
