@@ -1,6 +1,57 @@
 {
-  "fetchedAt": "2026-09-15T17:03:31.142Z",
+  "fetchedAt": "2026-09-15T21:04:17.092Z",
   "transactions": [
+    {
+      "id": "f105ce78-0a5c-45fc-9a21-c7dd9db7ee57",
+      "type": "FUTURE_ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789493217459,
+      "teamId": 8,
+      "items": [
+        {
+          "playerId": 15847,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 3117256,
+          "type": "LINEUP"
+        }
+      ]
+    },
+    {
+      "id": "ebd007b4-df9d-4ef7-9048-56853578e99a",
+      "type": "FUTURE_ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789493170411,
+      "teamId": 8,
+      "items": [
+        {
+          "playerId": 15847,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 3117256,
+          "type": "LINEUP"
+        }
+      ]
+    },
+    {
+      "id": "d318d491-96de-4806-a304-e71551926bbf",
+      "type": "ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789492952218,
+      "teamId": 8,
+      "items": [
+        {
+          "playerId": 3126486,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 3121422,
+          "type": "LINEUP"
+        }
+      ]
+    },
     {
       "id": "6c41ad54-acec-4655-97c5-5bf0b3596866",
       "type": "ROSTER",
