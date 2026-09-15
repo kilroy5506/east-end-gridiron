@@ -11,6 +11,13 @@ export interface NewsPost {
    * lib/markdown-lite.tsx — see that file for exactly what's supported.
    */
   body: string;
+  /**
+   * Set only on auto-generated weekly Power Rankings recaps (see
+   * scripts/generate-power-rankings-recap.mjs and lib/news.ts) — lets the
+   * generator tell "already wrote this week's recap" from "haven't yet"
+   * without re-parsing the post. Hand-written posts here just omit it.
+   */
+  weekNumber?: number;
 }
 
 /**
