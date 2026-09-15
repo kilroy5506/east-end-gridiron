@@ -68,7 +68,7 @@ export default function Home() {
                     <tr key={team.id} className="border-b border-border last:border-0">
                       <td className="py-2.5 pl-4 pr-2 text-muted font-mono-num">{team.rank}</td>
                       <td className="py-2.5 px-2">
-                        <div className="font-medium">{teamName(team)}</div>
+                        <div className="font-medium text-foreground">{teamName(team)}</div>
                         {ownerNames(team) && ownerNames(team) !== teamName(team) && (
                           <div className="text-xs text-muted">{ownerNames(team)}</div>
                         )}
