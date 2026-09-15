@@ -3,6 +3,7 @@ import { getLeagueSnapshot, getPowerRankings, getScoreboard, ownerNames, teamNam
 import { formatPoints, formatRecord } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 import { newsPosts } from "@/content/news";
+import { buildStatsBook, teamDisplay } from "@/lib/stats-book";
 
 /** Small stacked "value, then rank" cell — same pattern used on /rankings,
  *  repeated here for the standings table's Power-Ranking-derived columns. */
@@ -26,6 +27,11 @@ export default function Home() {
   const topRanked = rankings.teams.find((t) => t.powerRank === 1);
   const topRankedTeam = topRanked ? snapshot.teams.find((t) => t.id === topRanked.teamId) : undefined;
   const latestPost = newsPosts[0];
+
+  const statsBookSections = hasData ? buildStatsBook(snapshot, rankings) : [];
+  const biggestBlowout = statsBookSections
+    .find((s) => s.title === "Margins & Streaks")
+    ?.entries.find((e) => e.label === "Largest Margin of Victory");
 
   return (
     <div className="flex flex-col gap-10">
@@ -157,7 +163,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2">
+      <section className="grid gap-4 sm:grid-cols-3">
         <Link
           href="/rankings"
           className="rounded-lg border border-border bg-surface hover:bg-surface-raised transition-colors px-5 py-4 flex flex-col gap-1"
@@ -176,6 +182,29 @@ export default function Home() {
           ) : (
             <span className="text-sm text-muted line-clamp-2">
               Fills in once the first weekly computation runs.
+            </span>
+          )}
+        </Link>
+
+        <Link
+          href="/stats-book"
+          className="rounded-lg border border-border bg-surface hover:bg-surface-raised transition-colors px-5 py-4 flex flex-col gap-1"
+        >
+          <span className="font-heading text-xs uppercase tracking-[0.1em] text-accent">
+            Stats Book
+          </span>
+          {biggestBlowout ? (
+            <>
+              <span className="font-semibold">
+                Biggest blowout: {teamDisplay(snapshot, biggestBlowout.teamId).name}
+              </span>
+              <span className="text-sm text-muted line-clamp-2">
+                Won by {biggestBlowout.value} — plus season highs, lows, and streaks.
+              </span>
+            </>
+          ) : (
+            <span className="text-sm text-muted line-clamp-2">
+              Season records, margins, and streaks — fills in as the season plays out.
             </span>
           )}
         </Link>
