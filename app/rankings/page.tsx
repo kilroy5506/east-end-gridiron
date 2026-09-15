@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { getLeagueSnapshot, getPowerRankings, ownerNames, teamName } from "@/lib/data";
 import { formatPoints } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 import { powerRankingsCommentary } from "@/content/power-rankings";
+import { POWER_RANKING_CATEGORIES } from "@/lib/power-ranking-categories";
 
 /** Small stacked "value, then category rank" cell used for every category
  *  column — keeps the table scannable without needing five separate legends. */
@@ -14,11 +16,24 @@ function RankedCell({ value, rank }: { value: string; rank: number }) {
   );
 }
 
+/** Column header for one of the five categories — links to its
+ *  week-by-week drill-down page (/rankings/[category]). */
+function CategoryHeader({ slug, label }: { slug: string; label: string }) {
+  return (
+    <th className="py-2 px-3 font-medium text-right whitespace-nowrap">
+      <Link href={`/rankings/${slug}`} className="hover:text-foreground hover:underline">
+        {label}
+      </Link>
+    </th>
+  );
+}
+
 export default function RankingsPage() {
   const rankings = getPowerRankings();
   const snapshot = getLeagueSnapshot();
   const hasData = rankings.fetchedAt !== null && rankings.teams.length > 0;
   const commentary = powerRankingsCommentary.find((c) => c.week === rankings.throughWeek);
+  const cat = Object.fromEntries(POWER_RANKING_CATEGORIES.map((c) => [c.slug, c]));
 
   return (
     <div className="flex flex-col gap-8">
@@ -46,11 +61,14 @@ export default function RankingsPage() {
                   <th className="py-2 pl-4 pr-2 font-medium">#</th>
                   <th className="py-2 px-2 font-medium">Team</th>
                   <th className="py-2 px-3 font-medium text-right">Power Score</th>
-                  <th className="py-2 px-3 font-medium text-right">Record</th>
-                  <th className="py-2 px-3 font-medium text-right">Points</th>
-                  <th className="py-2 px-3 font-medium text-right">Breakdown</th>
-                  <th className="py-2 px-3 font-medium text-right">Coach Rating</th>
-                  <th className="py-2 pr-4 pl-3 font-medium text-right">Optimal BD</th>
+                  <CategoryHeader slug={cat.record.slug} label={cat.record.shortLabel} />
+                  <CategoryHeader slug={cat.points.slug} label={cat.points.shortLabel} />
+                  <CategoryHeader slug={cat.breakdown.slug} label={cat.breakdown.shortLabel} />
+                  <CategoryHeader slug={cat["coach-rating"].slug} label={cat["coach-rating"].shortLabel} />
+                  <CategoryHeader
+                    slug={cat["optimal-breakdown"].slug}
+                    label={cat["optimal-breakdown"].shortLabel}
+                  />
                 </tr>
               </thead>
               <tbody>
@@ -94,34 +112,26 @@ export default function RankingsPage() {
             </summary>
             <div className="mt-3 flex flex-col gap-2 text-sm text-muted">
               <p>
-                Every team gets ranked (1 = best) in five categories. The five ranks are added
-                together into a Power Score — lower is better — and that total is ranked again
-                for the final order above.
+                Every team gets ranked (1 = best) in five categories. Each category rank earns
+                points toward a Power Score — the best team in a category earns the most points,
+                the last-place team earns the fewest — and those five point totals are added
+                together and ranked again for the final order above. Higher Power Score is
+                better.
               </p>
               <ul className="list-disc pl-5 flex flex-col gap-1">
-                <li>
-                  <strong className="text-foreground">Record</strong> — real wins/losses/ties against
-                  each week&rsquo;s actual opponent.
-                </li>
-                <li>
-                  <strong className="text-foreground">Points</strong> — total points scored all season.
-                </li>
-                <li>
-                  <strong className="text-foreground">Breakdown</strong> — &ldquo;all-play&rdquo; wins:
-                  each week, a team is credited a win for every other team it outscored that
-                  week (a tie counts as half a win), regardless of who it actually played.
-                </li>
-                <li>
-                  <strong className="text-foreground">Coach Rating</strong> — the average share of each
-                  week&rsquo;s best-possible lineup score that the manager&rsquo;s actual
-                  start/sit decisions captured.
-                </li>
-                <li>
-                  <strong className="text-foreground">Optimal BD</strong> — the same all-play
-                  calculation as Breakdown, but using each team&rsquo;s optimal lineup score
-                  instead of what was actually started, to measure roster strength on its own.
-                </li>
+                {POWER_RANKING_CATEGORIES.map((c) => (
+                  <li key={c.slug}>
+                    <Link href={`/rankings/${c.slug}`} className="text-foreground font-semibold hover:underline">
+                      {c.label}
+                    </Link>{" "}
+                    — {c.description}
+                  </li>
+                ))}
               </ul>
+              <p className="text-xs">
+                Click any category above (in the table header or this list) to see the
+                week-by-week numbers behind it.
+              </p>
             </div>
           </details>
         </>
