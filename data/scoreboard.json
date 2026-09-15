@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T01:12:50.800Z",
+  "fetchedAt": "2026-09-15T01:32:01.034Z",
   "week": 1,
   "matchups": [
     {
@@ -11,7 +11,7 @@
       },
       "away": {
         "teamId": 6,
-        "totalPoints": 103.86
+        "totalPoints": 101.86
       },
       "winner": "UNDECIDED"
     },
@@ -37,7 +37,7 @@
       },
       "away": {
         "teamId": 10,
-        "totalPoints": 138.3
+        "totalPoints": 144.6
       },
       "winner": "UNDECIDED"
     },
