@@ -1,27 +1,41 @@
 // Computes the site's Power Rankings using Michael's own multi-year
 // methodology (not ESPN's). For every completed week of the season, each
-// team gets ranked in five categories, and the sum of those five ranks —
-// the "Power Score" — is itself ranked to produce the final order:
+// team gets ranked in five categories, and each category rank earns
+// points toward a "Power Score" — the best team in a category (rank 1)
+// earns the most points (one point per team in the league), the worst
+// earns the fewest (1 point). The Power Score is the sum of those five
+// category-point totals, and it's itself ranked to produce the final
+// order — the best team ends up with the HIGHEST Power Score:
 //
-//   1. Record            — real wins/losses/ties against the actual
-//                           weekly opponent.
-//   2. Points Scored      — total points scored all season.
-//   3. Breakdown          — "all-play" wins: each week, a team is credited
-//                           a win for every other team it outscored that
-//                           week (a tie counts as half a win), regardless
-//                           of who it actually played.
-//   4. Coach Rating        — average of each week's (points started) /
-//                           (best possible lineup that week), i.e. how much
-//                           of the roster's available points the manager's
-//                           actual start/sit decisions captured.
-//   5. Optimal Breakdown  — the same all-play calculation as Breakdown,
-//                           but using each team's *optimal* lineup score
-//                           instead of what they actually started, so it
-//                           reflects roster strength independent of
-//                           start/sit mistakes.
+//   1. Record                  — real wins/losses/ties against the actual
+//                                 weekly opponent.
+//   2. Points Scored            — total points scored all season.
+//   3. Breakdown                — "all-play" wins: each week, a team is
+//                                 credited a win for every other team it
+//                                 outscored that week (a tie counts as half
+//                                 a win), regardless of who it actually
+//                                 played.
+//   4. Coach Rating              — average of each week's (points started) /
+//                                 (best possible lineup that week), i.e. how
+//                                 much of the roster's available points the
+//                                 manager's actual start/sit decisions
+//                                 captured.
+//   5. Optimal Points Breakdown — the same all-play calculation as
+//                                 Breakdown, but using each team's
+//                                 *optimal* lineup score instead of what
+//                                 they actually started, so it reflects
+//                                 roster strength independent of
+//                                 start/sit mistakes.
 //
 // Rank 1 is best in every category (standard competition ranking — ties
-// share the better rank, e.g. 1, 2, 2, 4). Lower Power Score is better.
+// share the better rank, e.g. 1, 2, 2, 4). Higher Power Score is better.
+//
+// Alongside the season-to-date totals above, this also writes a
+// `weeklyHistory` array: for every played week, each category's raw value
+// and rank *for that single week* (not cumulative) — this is what powers
+// the per-category week-by-week drill-down pages on the site, both for
+// spotting trends and for spot-checking that a given week computed
+// correctly.
 //
 // This is intentionally self-contained (its own ESPN fetch helper, not
 // shared with fetch-espn-data.mjs) so it can be read and reasoned about on
@@ -253,6 +267,7 @@ async function main() {
   );
 
   const teamIds = (leagueRaw.teams ?? []).map((t) => t.id);
+  const numTeams = teamIds.length;
 
   // --- Walk every week of the season played so far -------------------------
   // Per-team season totals we're accumulating across weeks.
@@ -262,6 +277,11 @@ async function main() {
       { wins: 0, losses: 0, ties: 0, pointsScored: 0, breakdownWins: 0, optimalBreakdownWins: 0, coachRatingSum: 0, weeksCounted: 0 },
     ])
   );
+
+  // Per-week snapshots (not cumulative) — one entry per played week, each
+  // holding every team's raw value + rank in each of the five categories
+  // for that week alone. Powers the /rankings/[category] drill-down pages.
+  const weeklyHistory = [];
 
   let weeksIncluded = 0;
   for (let week = 1; week <= currentWeek; week++) {
@@ -302,7 +322,8 @@ async function main() {
       break;
     }
 
-    // Real matchup pairings, to credit actual Record wins/losses/ties.
+    // Real matchup pairings, to credit actual Record wins/losses/ties — both
+    // into the season totals and into this week's own snapshot.
     const sbParams = new URLSearchParams();
     sbParams.append("view", "mMatchupScore");
     sbParams.append("view", "mScoreboard");
@@ -310,6 +331,9 @@ async function main() {
     const sbRaw = await espnFetch(sbParams);
     const weekMatchups = (sbRaw.schedule ?? []).filter((m) => m.matchupPeriodId === week);
 
+    const weekResult = new Map(
+      teamIds.map((id) => [id, { wins: 0, losses: 0, ties: 0 }])
+    );
     for (const m of weekMatchups) {
       const homeId = m.home?.teamId;
       const awayId = m.away?.teamId;
@@ -318,20 +342,34 @@ async function main() {
       const awayScore = actualScores.get(awayId) ?? 0;
       const home = totals.get(homeId);
       const away = totals.get(awayId);
+      const homeWeek = weekResult.get(homeId);
+      const awayWeek = weekResult.get(awayId);
       if (!home || !away) continue;
       if (homeScore > awayScore) {
         home.wins++;
         away.losses++;
+        if (homeWeek) homeWeek.wins++;
+        if (awayWeek) awayWeek.losses++;
       } else if (awayScore > homeScore) {
         away.wins++;
         home.losses++;
+        if (awayWeek) awayWeek.wins++;
+        if (homeWeek) homeWeek.losses++;
       } else {
         home.ties++;
         away.ties++;
+        if (homeWeek) homeWeek.ties++;
+        if (awayWeek) awayWeek.ties++;
       }
     }
 
-    // All-play breakdown (actual and optimal) + points + coach rating.
+    // All-play breakdown (actual and optimal) + points + coach rating —
+    // accumulated into season totals, and also kept per-team for this
+    // week's own snapshot below.
+    const weekBreakdown = new Map();
+    const weekOptimalBreakdown = new Map();
+    const weekCoachPct = new Map(); // 0-1 scale, or null if no optimal score
+
     for (const teamId of teamIds) {
       const t = totals.get(teamId);
       const actual = actualScores.get(teamId) ?? 0;
@@ -351,12 +389,60 @@ async function main() {
       }
       t.breakdownWins += breakdownWins;
       t.optimalBreakdownWins += optimalBreakdownWins;
+      weekBreakdown.set(teamId, breakdownWins);
+      weekOptimalBreakdown.set(teamId, optimalBreakdownWins);
 
       if (optimal > 0) {
-        t.coachRatingSum += Math.min(1, actual / optimal);
+        const pct = Math.min(1, actual / optimal);
+        t.coachRatingSum += pct;
         t.weeksCounted += 1;
+        weekCoachPct.set(teamId, pct);
+      } else {
+        weekCoachPct.set(teamId, null);
       }
     }
+
+    // Rank this week's own numbers (not cumulative) in each category, then
+    // record the snapshot.
+    const weekRecordRanks = rankDescending(teamIds, (id) => {
+      const r = weekResult.get(id);
+      return r.wins + 0.5 * r.ties;
+    });
+    const weekPointsRanks = rankDescending(teamIds, (id) => actualScores.get(id) ?? 0);
+    const weekBreakdownRanks = rankDescending(teamIds, (id) => weekBreakdown.get(id) ?? 0);
+    const weekCoachRatingRanks = rankDescending(teamIds, (id) => weekCoachPct.get(id) ?? 0);
+    const weekOptimalBreakdownRanks = rankDescending(teamIds, (id) => weekOptimalBreakdown.get(id) ?? 0);
+
+    weeklyHistory.push({
+      week,
+      record: teamIds.map((id) => {
+        const r = weekResult.get(id);
+        return { teamId: id, wins: r.wins, losses: r.losses, ties: r.ties, rank: weekRecordRanks.get(id) };
+      }),
+      pointsScored: teamIds.map((id) => ({
+        teamId: id,
+        value: actualScores.get(id) ?? 0,
+        rank: weekPointsRanks.get(id),
+      })),
+      breakdown: teamIds.map((id) => ({
+        teamId: id,
+        wins: weekBreakdown.get(id) ?? 0,
+        rank: weekBreakdownRanks.get(id),
+      })),
+      coachRating: teamIds.map((id) => {
+        const pct = weekCoachPct.get(id);
+        return {
+          teamId: id,
+          pct: pct == null ? null : Math.round(pct * 1000) / 10,
+          rank: weekCoachRatingRanks.get(id),
+        };
+      }),
+      optimalBreakdown: teamIds.map((id) => ({
+        teamId: id,
+        wins: weekOptimalBreakdown.get(id) ?? 0,
+        rank: weekOptimalBreakdownRanks.get(id),
+      })),
+    });
 
     console.log(
       `  Scored ${rosterRaw.teams?.length ?? 0} teams, ${weekMatchups.length} matchups.`
@@ -369,7 +455,8 @@ async function main() {
     return;
   }
 
-  // --- Rank each category, sum to Power Score, rank Power Score -----------
+  // --- Rank each category (season-to-date), turn ranks into points, sum to
+  // Power Score, rank Power Score -----------------------------------------
   const winPct = new Map(
     teamIds.map((id) => {
       const t = totals.get(id);
@@ -386,15 +473,21 @@ async function main() {
   });
   const optimalBreakdownRanks = rankDescending(teamIds, (id) => totals.get(id).optimalBreakdownWins);
 
+  // Best team in a category (rank 1) earns `numTeams` points; last place
+  // earns 1 point — so the best team overall ends up with the HIGHEST
+  // Power Score, not the lowest.
+  const toPoints = (rank) => numTeams - rank + 1;
   const powerScores = new Map(
     teamIds.map((id) => [
       id,
-      recordRanks.get(id) + pointsRanks.get(id) + breakdownRanks.get(id) + coachRatingRanks.get(id) + optimalBreakdownRanks.get(id),
+      toPoints(recordRanks.get(id)) +
+        toPoints(pointsRanks.get(id)) +
+        toPoints(breakdownRanks.get(id)) +
+        toPoints(coachRatingRanks.get(id)) +
+        toPoints(optimalBreakdownRanks.get(id)),
     ])
   );
-  // Lower Power Score is better, so rank ascending — reuse rankDescending by
-  // negating the value.
-  const powerRanks = rankDescending(teamIds, (id) => -powerScores.get(id));
+  const powerRanks = rankDescending(teamIds, (id) => powerScores.get(id));
 
   const teams = teamIds.map((id) => {
     const t = totals.get(id);
@@ -416,7 +509,7 @@ async function main() {
 
   await writeFile(
     "data/power-rankings.json",
-    JSON.stringify({ fetchedAt, throughWeek: weeksIncluded, teams }, null, 2)
+    JSON.stringify({ fetchedAt, throughWeek: weeksIncluded, teams, weeklyHistory }, null, 2)
   );
   console.log(`\npower-rankings.json written: through week ${weeksIncluded}, ${teams.length} teams.`);
 }
