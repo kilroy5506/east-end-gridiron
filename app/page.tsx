@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { getLeagueSnapshot, getScoreboard, ownerNames, teamName } from "@/lib/data";
+import { getLeagueSnapshot, getPowerRankings, getScoreboard, ownerNames, teamName } from "@/lib/data";
 import { formatPoints, formatRecord } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
-import { powerRankings } from "@/content/power-rankings";
 import { newsPosts } from "@/content/news";
 
 export default function Home() {
   const snapshot = getLeagueSnapshot();
   const scoreboard = getScoreboard();
+  const rankings = getPowerRankings();
   const hasData = snapshot.fetchedAt !== null;
 
-  const latestRanking = powerRankings[0];
+  const topRanked = rankings.teams.find((t) => t.powerRank === 1);
+  const topRankedTeam = topRanked ? snapshot.teams.find((t) => t.id === topRanked.teamId) : undefined;
   const latestPost = newsPosts[0];
 
   return (
@@ -101,10 +102,19 @@ export default function Home() {
           <span className="font-heading text-xs uppercase tracking-[0.1em] text-accent">
             Power Rankings
           </span>
-          <span className="font-semibold">
-            #{latestRanking.entries[0]?.rank ?? 1}: {latestRanking.entries[0]?.teamName ?? "—"}
-          </span>
-          <span className="text-sm text-muted line-clamp-2">{latestRanking.intro}</span>
+          {topRankedTeam ? (
+            <>
+              <span className="font-semibold">#1: {teamName(topRankedTeam)}</span>
+              <span className="text-sm text-muted line-clamp-2">
+                Through Week {rankings.throughWeek} — ranked on record, points, all-play
+                breakdown, and coaching efficiency, not just the standings.
+              </span>
+            </>
+          ) : (
+            <span className="text-sm text-muted line-clamp-2">
+              Fills in once the first weekly computation runs.
+            </span>
+          )}
         </Link>
 
         <Link
