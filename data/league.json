@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T14:11:55.507Z",
+  "fetchedAt": "2026-09-15T17:03:31.142Z",
   "leagueName": "East End Gridiron Championship",
   "size": 10,
   "currentWeek": 2,
@@ -17,6 +17,11 @@
         "pointsFor": 166.2,
         "pointsAgainst": 157.66
       },
+      "overallRecord": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
       "owners": [
         "John Bregger"
       ],
@@ -31,6 +36,11 @@
         "ties": 0,
         "pointsFor": 157.56,
         "pointsAgainst": 109.72
+      },
+      "overallRecord": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
       },
       "owners": [
         "Michael Farris"
@@ -47,40 +57,15 @@
         "pointsFor": 135.22,
         "pointsAgainst": 135.1
       },
+      "overallRecord": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
       "owners": [
         "Will Hadley"
       ],
       "rank": 3
-    },
-    {
-      "id": 9,
-      "abbrev": "LLUA",
-      "record": {
-        "wins": 1,
-        "losses": 0,
-        "ties": 0,
-        "pointsFor": 128.16,
-        "pointsAgainst": 97.86
-      },
-      "owners": [
-        "Shep Shepherd"
-      ],
-      "rank": 4
-    },
-    {
-      "id": 7,
-      "abbrev": "JWS",
-      "record": {
-        "wins": 1,
-        "losses": 0,
-        "ties": 0,
-        "pointsFor": 126.96,
-        "pointsAgainst": 75.66
-      },
-      "owners": [
-        "jacob reedy"
-      ],
-      "rank": 5
     },
     {
       "id": 4,
@@ -92,10 +77,15 @@
         "pointsFor": 157.66,
         "pointsAgainst": 166.2
       },
+      "overallRecord": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
       "owners": [
         "Jonathan Avery"
       ],
-      "rank": 6
+      "rank": 4
     },
     {
       "id": 5,
@@ -107,8 +97,53 @@
         "pointsFor": 135.1,
         "pointsAgainst": 135.22
       },
+      "overallRecord": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
       "owners": [
         "Brandon Baxter"
+      ],
+      "rank": 5
+    },
+    {
+      "id": 9,
+      "abbrev": "LLUA",
+      "record": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 128.16,
+        "pointsAgainst": 97.86
+      },
+      "overallRecord": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "owners": [
+        "Shep Shepherd"
+      ],
+      "rank": 6
+    },
+    {
+      "id": 7,
+      "abbrev": "JWS",
+      "record": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 126.96,
+        "pointsAgainst": 75.66
+      },
+      "overallRecord": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "owners": [
+        "jacob reedy"
       ],
       "rank": 7
     },
@@ -121,6 +156,11 @@
         "ties": 0,
         "pointsFor": 109.72,
         "pointsAgainst": 157.56
+      },
+      "overallRecord": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
       },
       "owners": [
         "Nick Yacovazzi"
@@ -137,6 +177,11 @@
         "pointsFor": 97.86,
         "pointsAgainst": 128.16
       },
+      "overallRecord": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
       "owners": [
         "Daniel Foster"
       ],
@@ -151,6 +196,11 @@
         "ties": 0,
         "pointsFor": 75.66,
         "pointsAgainst": 126.96
+      },
+      "overallRecord": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
       },
       "owners": [
         "Jeff McCormick"

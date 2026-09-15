@@ -1,6 +1,23 @@
 {
-  "fetchedAt": "2026-09-15T14:11:55.507Z",
+  "fetchedAt": "2026-09-15T17:03:31.142Z",
   "transactions": [
+    {
+      "id": "6c41ad54-acec-4655-97c5-5bf0b3596866",
+      "type": "ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789485526518,
+      "teamId": 3,
+      "items": [
+        {
+          "playerId": 4361050,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 4572680,
+          "type": "LINEUP"
+        }
+      ]
+    },
     {
       "id": "bc8c00d6-afda-4ae6-952a-05b3cc92d3c3",
       "type": "ROSTER",
