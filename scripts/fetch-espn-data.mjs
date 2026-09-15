@@ -76,7 +76,38 @@ function buildMembersById(leagueRaw) {
   return membersById;
 }
 
+// Synced clock times (Central), five times a day rather than continuously —
+// the site is mainly used for league news and Power Rankings, not
+// second-by-second score-watching, so this trades a little in-game
+// freshness for a lot of headroom against Vercel's Hobby-plan deployment
+// limit (every commit here triggers a redeploy). GitHub Actions cron is
+// fixed UTC and doesn't shift for daylight saving, so the workflow fires
+// TWO scheduled crons per target Central time (covering both possible UTC
+// offsets) and this script is what actually decides whether "now" is
+// really one of those Central times before doing any real work. A manual
+// run from the Actions tab (workflow_dispatch) always runs regardless of
+// the clock.
+const SYNC_CT_HOURS = new Set([0, 8, 12, 16, 20]); // midnight, 8am, noon, 4pm, 8pm
+
 async function main() {
+  if (process.env.TRIGGER_EVENT === "schedule") {
+    const rawHour = Number(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "numeric",
+        hour12: false,
+      }).format(new Date())
+    );
+    const ctHour = rawHour % 24; // defensive: some ICU builds report midnight as "24"
+    if (!SYNC_CT_HOURS.has(ctHour)) {
+      console.log(
+        `Scheduled run fired outside a sync window (currently ${ctHour}:00 CT) — skipping. ` +
+          "This is expected for most of the extra DST-safe cron entries each day."
+      );
+      return;
+    }
+  }
+
   await mkdir("data", { recursive: true });
   const fetchedAt = new Date().toISOString();
 
