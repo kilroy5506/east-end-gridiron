@@ -1,6 +1,24 @@
 {
-  "fetchedAt": "2026-09-15T13:11:22.587Z",
-  "transactions": [],
+  "fetchedAt": "2026-09-15T14:11:55.507Z",
+  "transactions": [
+    {
+      "id": "bc8c00d6-afda-4ae6-952a-05b3cc92d3c3",
+      "type": "ROSTER",
+      "status": "EXECUTED",
+      "proposedDate": 1789480812135,
+      "teamId": 2,
+      "items": [
+        {
+          "playerId": 4685512,
+          "type": "LINEUP"
+        },
+        {
+          "playerId": 4239996,
+          "type": "LINEUP"
+        }
+      ]
+    }
+  ],
   "playerNames": {
     "139": "John Kasay",
     "169": "Stefen Wisniewski",

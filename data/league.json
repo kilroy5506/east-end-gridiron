@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T13:11:22.587Z",
+  "fetchedAt": "2026-09-15T14:11:55.507Z",
   "leagueName": "East End Gridiron Championship",
   "size": 10,
   "currentWeek": 2,
@@ -11,7 +11,7 @@
       "id": 10,
       "abbrev": "JSB",
       "record": {
-        "wins": 2,
+        "wins": 1,
         "losses": 0,
         "ties": 0,
         "pointsFor": 166.2,
@@ -26,7 +26,7 @@
       "id": 1,
       "abbrev": "JCS",
       "record": {
-        "wins": 2,
+        "wins": 1,
         "losses": 0,
         "ties": 0,
         "pointsFor": 157.56,
@@ -41,7 +41,7 @@
       "id": 8,
       "abbrev": "WWW",
       "record": {
-        "wins": 2,
+        "wins": 1,
         "losses": 0,
         "ties": 0,
         "pointsFor": 135.22,
@@ -53,10 +53,40 @@
       "rank": 3
     },
     {
+      "id": 9,
+      "abbrev": "LLUA",
+      "record": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 128.16,
+        "pointsAgainst": 97.86
+      },
+      "owners": [
+        "Shep Shepherd"
+      ],
+      "rank": 4
+    },
+    {
+      "id": 7,
+      "abbrev": "JWS",
+      "record": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0,
+        "pointsFor": 126.96,
+        "pointsAgainst": 75.66
+      },
+      "owners": [
+        "jacob reedy"
+      ],
+      "rank": 5
+    },
+    {
       "id": 4,
       "abbrev": "CWTS",
       "record": {
-        "wins": 1,
+        "wins": 0,
         "losses": 1,
         "ties": 0,
         "pointsFor": 157.66,
@@ -65,13 +95,13 @@
       "owners": [
         "Jonathan Avery"
       ],
-      "rank": 4
+      "rank": 6
     },
     {
       "id": 5,
       "abbrev": "WSTL",
       "record": {
-        "wins": 1,
+        "wins": 0,
         "losses": 1,
         "ties": 0,
         "pointsFor": 135.1,
@@ -80,36 +110,6 @@
       "owners": [
         "Brandon Baxter"
       ],
-      "rank": 5
-    },
-    {
-      "id": 9,
-      "abbrev": "LLUA",
-      "record": {
-        "wins": 1,
-        "losses": 1,
-        "ties": 0,
-        "pointsFor": 128.16,
-        "pointsAgainst": 97.86
-      },
-      "owners": [
-        "Shep Shepherd"
-      ],
-      "rank": 6
-    },
-    {
-      "id": 7,
-      "abbrev": "JWS",
-      "record": {
-        "wins": 1,
-        "losses": 1,
-        "ties": 0,
-        "pointsFor": 126.96,
-        "pointsAgainst": 75.66
-      },
-      "owners": [
-        "jacob reedy"
-      ],
       "rank": 7
     },
     {
@@ -117,7 +117,7 @@
       "abbrev": "CLE",
       "record": {
         "wins": 0,
-        "losses": 2,
+        "losses": 1,
         "ties": 0,
         "pointsFor": 109.72,
         "pointsAgainst": 157.56
@@ -132,7 +132,7 @@
       "abbrev": "GHJ",
       "record": {
         "wins": 0,
-        "losses": 2,
+        "losses": 1,
         "ties": 0,
         "pointsFor": 97.86,
         "pointsAgainst": 128.16
@@ -147,7 +147,7 @@
       "abbrev": "MCM",
       "record": {
         "wins": 0,
-        "losses": 2,
+        "losses": 1,
         "ties": 0,
         "pointsFor": 75.66,
         "pointsAgainst": 126.96
