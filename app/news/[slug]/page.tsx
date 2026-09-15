@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { newsPosts } from "@/content/news";
+import { getAllNewsPosts } from "@/lib/news";
 import { formatDate } from "@/lib/format";
 import { MarkdownLite } from "@/lib/markdown-lite";
 
 export function generateStaticParams() {
-  return newsPosts.map((post) => ({ slug: post.slug }));
+  return getAllNewsPosts().map((post) => ({ slug: post.slug }));
 }
 
 export default async function NewsPostPage({
@@ -14,7 +14,7 @@ export default async function NewsPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = newsPosts.find((p) => p.slug === slug);
+  const post = getAllNewsPosts().find((p) => p.slug === slug);
   if (!post) notFound();
 
   return (
