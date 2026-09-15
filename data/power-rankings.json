@@ -1,9 +1,9 @@
 {
-  "fetchedAt": "2026-09-15T02:07:43.258Z",
+  "fetchedAt": "2026-09-15T07:11:41.026Z",
   "throughWeek": 1,
   "teams": [
     {
-      "teamId": 4,
+      "teamId": 10,
       "record": {
         "wins": 1,
         "losses": 0,
@@ -11,7 +11,7 @@
         "rank": 1
       },
       "pointsScored": {
-        "value": 157.66,
+        "value": 166.2,
         "rank": 1
       },
       "breakdown": {
@@ -19,15 +19,23 @@
         "rank": 1
       },
       "coachRating": {
-        "pct": 94.1,
-        "rank": 1
+        "pct": 93,
+        "rank": 2
       },
       "optimalBreakdown": {
-        "wins": 6,
-        "rank": 4
+        "wins": 9,
+        "rank": 1
       },
-      "powerScore": 8,
-      "powerRank": 1
+      "powerScore": 49,
+      "powerRank": 1,
+      "optimalPoints": {
+        "value": 178.7,
+        "rank": 1
+      },
+      "strengthOfSchedule": {
+        "value": 40,
+        "rank": 3
+      }
     },
     {
       "teamId": 1,
@@ -39,25 +47,33 @@
       },
       "pointsScored": {
         "value": 157.56,
-        "rank": 2
+        "rank": 3
       },
       "breakdown": {
-        "wins": 8,
-        "rank": 2
+        "wins": 7,
+        "rank": 3
       },
       "coachRating": {
         "pct": 90.3,
         "rank": 4
       },
       "optimalBreakdown": {
-        "wins": 9,
-        "rank": 1
+        "wins": 8,
+        "rank": 2
       },
-      "powerScore": 10,
-      "powerRank": 2
+      "powerScore": 42,
+      "powerRank": 2,
+      "optimalPoints": {
+        "value": 174.46,
+        "rank": 2
+      },
+      "strengthOfSchedule": {
+        "value": 18,
+        "rank": 8
+      }
     },
     {
-      "teamId": 10,
+      "teamId": 4,
       "record": {
         "wins": 0,
         "losses": 1,
@@ -65,26 +81,34 @@
         "rank": 6
       },
       "pointsScored": {
-        "value": 156.6,
-        "rank": 3
-      },
-      "breakdown": {
-        "wins": 7,
-        "rank": 3
-      },
-      "coachRating": {
-        "pct": 92.6,
+        "value": 157.66,
         "rank": 2
       },
-      "optimalBreakdown": {
+      "breakdown": {
         "wins": 8,
         "rank": 2
       },
-      "powerScore": 16,
-      "powerRank": 3
+      "coachRating": {
+        "pct": 94.1,
+        "rank": 1
+      },
+      "optimalBreakdown": {
+        "wins": 6,
+        "rank": 4
+      },
+      "powerScore": 40,
+      "powerRank": 3,
+      "optimalPoints": {
+        "value": 167.46,
+        "rank": 4
+      },
+      "strengthOfSchedule": {
+        "value": 49,
+        "rank": 1
+      }
     },
     {
-      "teamId": 5,
+      "teamId": 8,
       "record": {
         "wins": 1,
         "losses": 0,
@@ -92,7 +116,7 @@
         "rank": 1
       },
       "pointsScored": {
-        "value": 131.1,
+        "value": 135.22,
         "rank": 4
       },
       "breakdown": {
@@ -100,15 +124,23 @@
         "rank": 4
       },
       "coachRating": {
-        "pct": 77.8,
-        "rank": 8
+        "pct": 88.6,
+        "rank": 6
       },
       "optimalBreakdown": {
-        "wins": 7,
-        "rank": 3
+        "wins": 5,
+        "rank": 5
       },
-      "powerScore": 20,
-      "powerRank": 4
+      "powerScore": 35,
+      "powerRank": 4,
+      "optimalPoints": {
+        "value": 152.54,
+        "rank": 5
+      },
+      "strengthOfSchedule": {
+        "value": 28,
+        "rank": 6
+      }
     },
     {
       "teamId": 9,
@@ -120,11 +152,11 @@
       },
       "pointsScored": {
         "value": 128.16,
-        "rank": 5
+        "rank": 6
       },
       "breakdown": {
-        "wins": 5,
-        "rank": 5
+        "wins": 4,
+        "rank": 6
       },
       "coachRating": {
         "pct": 90.9,
@@ -134,8 +166,51 @@
         "wins": 4,
         "rank": 6
       },
-      "powerScore": 20,
-      "powerRank": 4
+      "powerScore": 33,
+      "powerRank": 5,
+      "optimalPoints": {
+        "value": 140.96,
+        "rank": 6
+      },
+      "strengthOfSchedule": {
+        "value": 13,
+        "rank": 9
+      }
+    },
+    {
+      "teamId": 5,
+      "record": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0,
+        "rank": 6
+      },
+      "pointsScored": {
+        "value": 135.1,
+        "rank": 5
+      },
+      "breakdown": {
+        "wins": 5,
+        "rank": 5
+      },
+      "coachRating": {
+        "pct": 78.3,
+        "rank": 8
+      },
+      "optimalBreakdown": {
+        "wins": 7,
+        "rank": 3
+      },
+      "powerScore": 28,
+      "powerRank": 6,
+      "optimalPoints": {
+        "value": 172.6,
+        "rank": 3
+      },
+      "strengthOfSchedule": {
+        "value": 35,
+        "rank": 4
+      }
     },
     {
       "teamId": 7,
@@ -147,11 +222,11 @@
       },
       "pointsScored": {
         "value": 126.96,
-        "rank": 6
+        "rank": 7
       },
       "breakdown": {
-        "wins": 4,
-        "rank": 6
+        "wins": 3,
+        "rank": 7
       },
       "coachRating": {
         "pct": 90.1,
@@ -161,35 +236,16 @@
         "wins": 3,
         "rank": 7
       },
-      "powerScore": 25,
-      "powerRank": 6
-    },
-    {
-      "teamId": 8,
-      "record": {
-        "wins": 0,
-        "losses": 1,
-        "ties": 0,
-        "rank": 6
-      },
-      "pointsScored": {
-        "value": 126.72,
+      "powerScore": 28,
+      "powerRank": 6,
+      "optimalPoints": {
+        "value": 140.86,
         "rank": 7
       },
-      "breakdown": {
-        "wins": 3,
-        "rank": 7
-      },
-      "coachRating": {
-        "pct": 84.5,
-        "rank": 7
-      },
-      "optimalBreakdown": {
-        "wins": 5,
-        "rank": 5
-      },
-      "powerScore": 32,
-      "powerRank": 7
+      "strengthOfSchedule": {
+        "value": 9,
+        "rank": 10
+      }
     },
     {
       "teamId": 2,
@@ -209,14 +265,22 @@
       },
       "coachRating": {
         "pct": 85.8,
-        "rank": 6
+        "rank": 7
       },
       "optimalBreakdown": {
         "wins": 2,
         "rank": 8
       },
-      "powerScore": 36,
-      "powerRank": 8
+      "powerScore": 18,
+      "powerRank": 8,
+      "optimalPoints": {
+        "value": 127.92,
+        "rank": 8
+      },
+      "strengthOfSchedule": {
+        "value": 42,
+        "rank": 2
+      }
     },
     {
       "teamId": 6,
@@ -242,8 +306,16 @@
         "wins": 1,
         "rank": 9
       },
-      "powerScore": 42,
-      "powerRank": 9
+      "powerScore": 13,
+      "powerRank": 9,
+      "optimalPoints": {
+        "value": 127.16,
+        "rank": 9
+      },
+      "strengthOfSchedule": {
+        "value": 33,
+        "rank": 5
+      }
     },
     {
       "teamId": 3,
@@ -269,8 +341,373 @@
         "wins": 0,
         "rank": 10
       },
-      "powerScore": 46,
-      "powerRank": 10
+      "powerScore": 9,
+      "powerRank": 10,
+      "optimalPoints": {
+        "value": 120.4,
+        "rank": 10
+      },
+      "strengthOfSchedule": {
+        "value": 28,
+        "rank": 6
+      }
+    }
+  ],
+  "weeklyHistory": [
+    {
+      "week": 1,
+      "record": [
+        {
+          "teamId": 1,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "margin": 47.84,
+          "opponentTeamId": 2,
+          "rank": 1
+        },
+        {
+          "teamId": 2,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "margin": -47.84,
+          "opponentTeamId": 1,
+          "rank": 6
+        },
+        {
+          "teamId": 3,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "margin": -51.3,
+          "opponentTeamId": 7,
+          "rank": 6
+        },
+        {
+          "teamId": 4,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "margin": -8.54,
+          "opponentTeamId": 10,
+          "rank": 6
+        },
+        {
+          "teamId": 5,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "margin": -0.12,
+          "opponentTeamId": 8,
+          "rank": 6
+        },
+        {
+          "teamId": 6,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "margin": -30.3,
+          "opponentTeamId": 9,
+          "rank": 6
+        },
+        {
+          "teamId": 7,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "margin": 51.3,
+          "opponentTeamId": 3,
+          "rank": 1
+        },
+        {
+          "teamId": 8,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "margin": 0.12,
+          "opponentTeamId": 5,
+          "rank": 1
+        },
+        {
+          "teamId": 9,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "margin": 30.3,
+          "opponentTeamId": 6,
+          "rank": 1
+        },
+        {
+          "teamId": 10,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "margin": 8.54,
+          "opponentTeamId": 4,
+          "rank": 1
+        }
+      ],
+      "pointsScored": [
+        {
+          "teamId": 1,
+          "value": 157.56,
+          "rank": 3
+        },
+        {
+          "teamId": 2,
+          "value": 109.72,
+          "rank": 8
+        },
+        {
+          "teamId": 3,
+          "value": 75.66,
+          "rank": 10
+        },
+        {
+          "teamId": 4,
+          "value": 157.66,
+          "rank": 2
+        },
+        {
+          "teamId": 5,
+          "value": 135.1,
+          "rank": 5
+        },
+        {
+          "teamId": 6,
+          "value": 97.86,
+          "rank": 9
+        },
+        {
+          "teamId": 7,
+          "value": 126.96,
+          "rank": 7
+        },
+        {
+          "teamId": 8,
+          "value": 135.22,
+          "rank": 4
+        },
+        {
+          "teamId": 9,
+          "value": 128.16,
+          "rank": 6
+        },
+        {
+          "teamId": 10,
+          "value": 166.2,
+          "rank": 1
+        }
+      ],
+      "optimalPoints": [
+        {
+          "teamId": 1,
+          "value": 174.46,
+          "rank": 2
+        },
+        {
+          "teamId": 2,
+          "value": 127.92,
+          "rank": 8
+        },
+        {
+          "teamId": 3,
+          "value": 120.4,
+          "rank": 10
+        },
+        {
+          "teamId": 4,
+          "value": 167.46,
+          "rank": 4
+        },
+        {
+          "teamId": 5,
+          "value": 172.6,
+          "rank": 3
+        },
+        {
+          "teamId": 6,
+          "value": 127.16,
+          "rank": 9
+        },
+        {
+          "teamId": 7,
+          "value": 140.86,
+          "rank": 7
+        },
+        {
+          "teamId": 8,
+          "value": 152.54,
+          "rank": 5
+        },
+        {
+          "teamId": 9,
+          "value": 140.96,
+          "rank": 6
+        },
+        {
+          "teamId": 10,
+          "value": 178.7,
+          "rank": 1
+        }
+      ],
+      "breakdown": [
+        {
+          "teamId": 1,
+          "wins": 7,
+          "rank": 3
+        },
+        {
+          "teamId": 2,
+          "wins": 2,
+          "rank": 8
+        },
+        {
+          "teamId": 3,
+          "wins": 0,
+          "rank": 10
+        },
+        {
+          "teamId": 4,
+          "wins": 8,
+          "rank": 2
+        },
+        {
+          "teamId": 5,
+          "wins": 5,
+          "rank": 5
+        },
+        {
+          "teamId": 6,
+          "wins": 1,
+          "rank": 9
+        },
+        {
+          "teamId": 7,
+          "wins": 3,
+          "rank": 7
+        },
+        {
+          "teamId": 8,
+          "wins": 6,
+          "rank": 4
+        },
+        {
+          "teamId": 9,
+          "wins": 4,
+          "rank": 6
+        },
+        {
+          "teamId": 10,
+          "wins": 9,
+          "rank": 1
+        }
+      ],
+      "coachRating": [
+        {
+          "teamId": 1,
+          "pct": 90.3,
+          "rank": 4
+        },
+        {
+          "teamId": 2,
+          "pct": 85.8,
+          "rank": 7
+        },
+        {
+          "teamId": 3,
+          "pct": 62.8,
+          "rank": 10
+        },
+        {
+          "teamId": 4,
+          "pct": 94.1,
+          "rank": 1
+        },
+        {
+          "teamId": 5,
+          "pct": 78.3,
+          "rank": 8
+        },
+        {
+          "teamId": 6,
+          "pct": 77,
+          "rank": 9
+        },
+        {
+          "teamId": 7,
+          "pct": 90.1,
+          "rank": 5
+        },
+        {
+          "teamId": 8,
+          "pct": 88.6,
+          "rank": 6
+        },
+        {
+          "teamId": 9,
+          "pct": 90.9,
+          "rank": 3
+        },
+        {
+          "teamId": 10,
+          "pct": 93,
+          "rank": 2
+        }
+      ],
+      "optimalBreakdown": [
+        {
+          "teamId": 1,
+          "wins": 8,
+          "rank": 2
+        },
+        {
+          "teamId": 2,
+          "wins": 2,
+          "rank": 8
+        },
+        {
+          "teamId": 3,
+          "wins": 0,
+          "rank": 10
+        },
+        {
+          "teamId": 4,
+          "wins": 6,
+          "rank": 4
+        },
+        {
+          "teamId": 5,
+          "wins": 7,
+          "rank": 3
+        },
+        {
+          "teamId": 6,
+          "wins": 1,
+          "rank": 9
+        },
+        {
+          "teamId": 7,
+          "wins": 3,
+          "rank": 7
+        },
+        {
+          "teamId": 8,
+          "wins": 5,
+          "rank": 5
+        },
+        {
+          "teamId": 9,
+          "wins": 4,
+          "rank": 6
+        },
+        {
+          "teamId": 10,
+          "wins": 9,
+          "rank": 1
+        }
+      ]
     }
   ]
 }
