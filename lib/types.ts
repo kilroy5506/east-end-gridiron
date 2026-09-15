@@ -36,14 +36,14 @@ export interface EspnMatchup {
 
 export interface EspnTransactionItem {
   playerId: number;
-  type: string;
+  type: string; // ADD, DROP, TRADE, etc.
   fromTeamId?: number;
   toTeamId?: number;
 }
 
 export interface EspnTransaction {
   id: string;
-  type: string;
+  type: string; // WAIVER, FREEAGENT, TRADE, ROSTER, etc.
   status: string;
   proposedDate?: number;
   teamId?: number;
@@ -55,6 +55,9 @@ export interface LeagueSnapshot {
   size: number;
   currentWeek: number;
   seasonId: string;
+  // Detected automatically from the league's actual ESPN scoring settings
+  // (the reception point value) — never hand-configured, so this stays
+  // correct if this site is ever pointed at a different league.
   scoringFormat: string;
   pointsPerReception: number;
   teams: EspnTeam[];
@@ -111,4 +114,49 @@ export interface DraftData {
   drafted: boolean;
   picks: DraftPick[];
   playerNames: Record<number, string>;
+}
+
+// --- Power Rankings ---------------------------------------------------------
+// Computed by scripts/compute-power-rankings.mjs from Michael's own
+// multi-year methodology (not ESPN's) — see that script's header comment
+// for exactly how each category is derived. Rank 1 is always best; lower
+// Power Score is always better.
+
+export interface PowerRankingCategory {
+  rank: number;
+}
+
+export interface PowerRankingRecord extends PowerRankingCategory {
+  wins: number;
+  losses: number;
+  ties: number;
+}
+
+export interface PowerRankingPoints extends PowerRankingCategory {
+  value: number;
+}
+
+export interface PowerRankingBreakdown extends PowerRankingCategory {
+  wins: number; // all-play wins; a tie counts as 0.5
+}
+
+export interface PowerRankingCoachRating extends PowerRankingCategory {
+  pct: number; // 0-100, average of (started points / optimal points) per week
+}
+
+export interface PowerRankingTeam {
+  teamId: number;
+  record: PowerRankingRecord;
+  pointsScored: PowerRankingPoints;
+  breakdown: PowerRankingBreakdown;
+  coachRating: PowerRankingCoachRating;
+  optimalBreakdown: PowerRankingBreakdown;
+  powerScore: number;
+  powerRank: number;
+}
+
+export interface PowerRankingsData {
+  fetchedAt: string | null;
+  throughWeek: number;
+  teams: PowerRankingTeam[];
 }
