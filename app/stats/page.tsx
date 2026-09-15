@@ -1,4 +1,4 @@
-import { getLeagueSnapshot, getStatsData, teamName } from "@/lib/data";
+import { getLeagueSnapshot, getStatsData, ownerNames, teamName } from "@/lib/data";
 import { formatPoints } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
 
@@ -60,7 +60,12 @@ export default function StatsPage() {
               >
                 <span className="flex items-center gap-3">
                   <span className="text-muted font-mono-num w-5">{i + 1}</span>
-                  <span className="font-medium">{teamName(team)}</span>
+                  <span className="flex flex-col">
+                    <span className="font-medium text-foreground">{teamName(team)}</span>
+                    {ownerNames(team) && ownerNames(team) !== teamName(team) && (
+                      <span className="text-xs text-muted">{ownerNames(team)}</span>
+                    )}
+                  </span>
                 </span>
                 <span className="font-mono-num text-accent">
                   {formatPoints(team.record.pointsFor)}
