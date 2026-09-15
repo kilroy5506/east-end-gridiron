@@ -30,7 +30,7 @@ export const newsPosts: NewsPost[] = [
   {
     slug: "2026-draft-recap",
     title: "2026 Draft Recap: Value, Reaches, and Every Team's Grade",
-    date: new Date().toISOString().slice(0, 10),
+    date: "2026-09-08",
     excerpt:
       "All 160 picks checked against real market ADP — who got a steal, who reached, and what every roster actually looks like heading into Week 1.",
     body: `The East End Gridiron Championship's 2026 draft is in the books — 10 teams, 16 rounds, 160 picks, full PPR scoring confirmed straight from the league's own settings. Before the season could get away from us, we pulled every pick and checked it against real market consensus (current 2026 PPR average draft position, pulled from FantasyFootballCalculator's live ADP tool, which tracks thousands of mock drafts run in the days leading into Week 1). ADP isn't gospel — it's just what the field expected. Which makes it exactly the right yardstick for figuring out who this league's actual sharks are.
@@ -125,7 +125,7 @@ Jump straight to your team:
   {
     slug: "welcome-to-league-hq",
     title: "The League Finally Has a Home",
-    date: new Date().toISOString().slice(0, 10),
+    date: "2026-09-01",
     excerpt:
       "Standings, power rankings, stat leaders, and the transaction wire, all in one place. Here's what's live and what's coming.",
     body: `East End Gridiron Championship HQ is live. Standings and this week's matchups pull straight from ESPN, so the numbers here are always current — no more digging through the app.
