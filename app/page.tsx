@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getLeagueSnapshot, getPowerRankings, getScoreboard, ownerNames, teamName } from "@/lib/data";
 import { formatPoints, formatRecord } from "@/lib/format";
 import { SyncNote, WaitingForSyncPanel } from "@/components/SyncNote";
-import { newsPosts } from "@/content/news";
+import { getAllNewsPosts } from "@/lib/news";
 import { buildStatsBook, teamDisplay } from "@/lib/stats-book";
 
 /** Small stacked "value, then rank" cell — same pattern used on /rankings,
@@ -26,7 +26,7 @@ export default function Home() {
 
   const topRanked = rankings.teams.find((t) => t.powerRank === 1);
   const topRankedTeam = topRanked ? snapshot.teams.find((t) => t.id === topRanked.teamId) : undefined;
-  const latestPost = newsPosts[0];
+  const latestPost = getAllNewsPosts()[0];
 
   const statsBookSections = hasData ? buildStatsBook(snapshot, rankings) : [];
   const biggestBlowout = statsBookSections
