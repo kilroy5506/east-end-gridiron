@@ -119,8 +119,10 @@ export interface DraftData {
 // --- Power Rankings ---------------------------------------------------------
 // Computed by scripts/compute-power-rankings.mjs from Michael's own
 // multi-year methodology (not ESPN's) — see that script's header comment
-// for exactly how each category is derived. Rank 1 is always best; lower
-// Power Score is always better.
+// for exactly how each category is derived. Rank 1 is always best in every
+// category; each category rank is worth (numTeams - rank + 1) points
+// toward the Power Score, so the best team ends up with the HIGHEST
+// Power Score.
 
 export interface PowerRankingCategory {
   rank: number;
@@ -155,8 +157,49 @@ export interface PowerRankingTeam {
   powerRank: number;
 }
 
+// --- Weekly history (per-category, not cumulative) -------------------------
+// One entry per played week; each category lists every team's raw value
+// and rank for THAT WEEK ALONE — not a running season total. Powers the
+// /rankings/[category] week-by-week drill-down pages.
+
+export interface PowerRankingWeeklyRecordEntry {
+  teamId: number;
+  wins: number;
+  losses: number;
+  ties: number;
+  rank: number;
+}
+
+export interface PowerRankingWeeklyValueEntry {
+  teamId: number;
+  value: number;
+  rank: number;
+}
+
+export interface PowerRankingWeeklyWinsEntry {
+  teamId: number;
+  wins: number; // all-play wins that week only; a tie counts as 0.5
+  rank: number;
+}
+
+export interface PowerRankingWeeklyCoachEntry {
+  teamId: number;
+  pct: number | null; // 0-100, or null if no optimal lineup could be computed that week
+  rank: number;
+}
+
+export interface PowerRankingWeek {
+  week: number;
+  record: PowerRankingWeeklyRecordEntry[];
+  pointsScored: PowerRankingWeeklyValueEntry[];
+  breakdown: PowerRankingWeeklyWinsEntry[];
+  coachRating: PowerRankingWeeklyCoachEntry[];
+  optimalBreakdown: PowerRankingWeeklyWinsEntry[];
+}
+
 export interface PowerRankingsData {
   fetchedAt: string | null;
   throughWeek: number;
   teams: PowerRankingTeam[];
+  weeklyHistory: PowerRankingWeek[];
 }
