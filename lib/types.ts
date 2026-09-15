@@ -155,6 +155,9 @@ export interface PowerRankingTeam {
   optimalBreakdown: PowerRankingBreakdown;
   powerScore: number;
   powerRank: number;
+  // Display-only stats — NOT part of the Power Score formula above.
+  optimalPoints: PowerRankingPoints; // total optimal-lineup points all season
+  strengthOfSchedule: PowerRankingPoints; // avg. of real opponents' CURRENT Power Score; rank 1 = toughest schedule
 }
 
 // --- Weekly history (per-category, not cumulative) -------------------------
